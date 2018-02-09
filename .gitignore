@@ -1,0 +1,30 @@
+# Dependency directories
+node_modules/
+
+# Typescript v1 declaration files
+typings/
+
+# Optional npm cache directory
+.npm
+
+# Output of 'npm pack'
+*.tgz
+
+# dotenv environment variables file
+.env
+
+# idea
+.idea
+
+# vs
+.vs
+
+# Generated JS
+*.js
+/nbproject/private/
+
+# Generated d.ts
+*.d.ts
+
+# Generated js.map
+*.js.map

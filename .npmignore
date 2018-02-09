@@ -1,0 +1,38 @@
+# Compiled binary addons (http://nodejs.org/api/addons.html)
+build/Release
+
+# Dependency directories
+node_modules/
+
+# Typescript v1 declaration files
+typings/
+
+# Optional npm cache directory
+.npm
+
+# Output of 'npm pack'
+*.tgz
+
+# dotenv environment variables file
+.env
+
+# idea
+.idea
+
+# vs
+.vs
+
+# TypeScript env
+/nbproject/private/
+tsconfig.json
+tslint.json
+
+# TypeScript Source files
+*.ts
+!*.d.ts
+
+# Test files
+test/
+
+# Generated js.map
+*.js.map

@@ -1,0 +1,22 @@
+{
+  "name": "validation-api",
+  "version": "0.0.1",
+  "description": "TypeScript Validation Api",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zharkov-eu/validation-api.git"
+  },
+  "keywords": [
+    "validation"
+  ],
+  "author": "Evgeni Zharkov <zharkov.ev.u@yandex.ru>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zharkov-eu/validation-api/issues"
+  },
+  "homepage": "https://github.com/zharkov-eu/validation-api#readme"
+}
