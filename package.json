@@ -4,7 +4,8 @@
   "description": "TypeScript Validation Api",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "node ./node_modules/typescript/bin/tsc",
+    "test": "node ./node_modules/mocha/bin/mocha --recursive test"
   },
   "repository": {
     "type": "git",
@@ -20,6 +21,10 @@
   },
   "homepage": "https://github.com/zharkov-eu/validation-api#readme",
   "devDependencies": {
-    "mocha": "^5.0.1"
+    "@types/mocha": "^2.2.48",
+    "@types/node": "^9.4.6",
+    "mocha": "^5.0.1",
+    "ts-node": "^5.0.0",
+    "typescript": "^2.7.2"
   }
 }

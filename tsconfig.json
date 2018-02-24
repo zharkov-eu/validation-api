@@ -3,7 +3,8 @@
     "declaration": true,
     "experimentalDecorators": true,
     "sourceMap": true,
-    "target": "es2015"
+    "target": "es2015",
+    "module": "commonjs"
   },
   "include": [
     "**/*"
