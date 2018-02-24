@@ -5,6 +5,18 @@
 
 "use strict";
 
-export class ValidationError extends Error {
+export interface ICause {
+    constraint: string;
+    message: string;
+    property: string;
+    value: any;
+}
 
+export class ValidationError extends Error {
+    public cause: ICause[];
+
+    constructor(cause: ICause[]) {
+        super("Validation Error");
+        this.cause = cause;
+    }
 }
