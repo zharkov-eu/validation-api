@@ -7,7 +7,10 @@
     "no-bitwise": true,
     "no-conditional-assignment": true,
     "no-consecutive-blank-lines": [true, 2],
+    "no-string-literal": false,
+    "only-arrow-functions": false,
+    "object-literal-shorthand": false,
     "interface-over-type-literal": false,
-    "max-classes-per-file": [true, 1]
+    "max-classes-per-file": [true, 10]
   }
 }

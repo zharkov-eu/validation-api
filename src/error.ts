@@ -5,7 +5,7 @@
 
 "use strict";
 
-export interface ICause {
+export interface IValidationErrorCause {
     constraint: string;
     message: string;
     property: string;
@@ -13,9 +13,9 @@ export interface ICause {
 }
 
 export class ValidationError extends Error {
-    public cause: ICause[];
+    public cause: IValidationErrorCause[];
 
-    constructor(cause: ICause[]) {
+    constructor(cause: IValidationErrorCause[]) {
         super("Validation Error");
         this.cause = cause;
     }

@@ -5,8 +5,15 @@
 
 "use strict";
 
+import * as api from "./src/decorator/api";
 import * as error from "./src/error";
 
-export default {
-  error: error
-};
+export const ValidationError = error.ValidationError;
+
+export const Validate = api.Validate;
+export const NotEmpty = api.NotEmpty;
+export const IsBoolean = api.IsBoolean;
+export const IsNumber = api.IsNumber;
+export const IsPositiveNumber = api.IsPositiveNumber;
+export const IsPositiveOrZeroNumber = api.IsPositiveOrZeroNumber;
+export const NotEmptyString = api.NotEmptyString;

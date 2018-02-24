@@ -5,11 +5,3 @@
 
 "use strict";
 
-import "mocha";
-import * as assert from "assert";
-
-describe("IsBoolean test", () => {
-  it("empty test", () => {
-    assert.strictEqual(true, true);
-  });
-});
