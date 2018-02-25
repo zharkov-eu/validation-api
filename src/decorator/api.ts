@@ -14,6 +14,27 @@ export interface IPropDecoratorOption {
   required?: boolean;
 }
 
+export interface INumberPropDecorationOption extends IPropDecoratorOption {
+  min?: number;
+  max?: number;
+}
+
+function setterShortcut(validate: (candidate: any) => boolean, constraintName: string, option: IPropDecoratorOption) {
+  return propDecorator((newValue: any, propertyKey: string | symbol): IPropValidateResponse => {
+    if (!validate(newValue)) {
+      return {
+        error: {
+          constraint: constraintName,
+          message: option.message || propertyKey.toString() + " is invalid by " + constraintName + " constraint",
+          property: propertyKey.toString(),
+          value: newValue,
+        },
+      };
+    }
+    return {value: newValue};
+  });
+}
+
 export function Validate(option: IClassDecoratorOption = {throwable: true}) {
   return <T extends { new(...args: any[]): {} }>(target: T) => {
     return class extends target {
@@ -31,98 +52,105 @@ export function Validate(option: IClassDecoratorOption = {throwable: true}) {
   };
 }
 
+/**
+ * Validate not empty candidate
+ * Error if candidate is undefined, null or NaN
+ * @param {IPropDecoratorOption} option
+ * @returns {(target: any, propertyKey: (string | symbol)) => void}
+ * @constructor
+ */
 export function NotEmpty(option: IPropDecoratorOption = {message: "", required: false}) {
-  return propDecorator((newValue: any, propertyKey: string | symbol): IPropValidateResponse => {
-    if (!validator.validateNotEmpty(newValue)) {
-      return {
-        error: {
-          constraint: "NotEmpty",
-          message: option.message || propertyKey.toString() + "is empty",
-          property: propertyKey.toString(),
-          value: newValue,
-        },
-      };
-    }
-    return {value: newValue};
-  });
+  return setterShortcut(validator.validateNotEmpty, "NotEmpty", option);
 }
 
+/**
+ * Validate boolean candidate
+ * Error if candidate is not a boolean type
+ * @param {IPropDecoratorOption} option
+ * @returns {(target: any, propertyKey: (string | symbol)) => void}
+ * @constructor
+ */
 export function IsBoolean(option: IPropDecoratorOption = {message: "", required: false}) {
-  return propDecorator((newValue: any, propertyKey: string | symbol): IPropValidateResponse => {
-    if (!validator.validateBoolean(newValue)) {
-      return {
-        error: {
-          constraint: "IsBoolean",
-          message: option.message || propertyKey.toString() + " is not a Boolean",
-          property: propertyKey.toString(),
-          value: newValue,
-        },
-      };
-    }
-    return {value: newValue};
-  });
+  return setterShortcut(validator.validateBoolean, "IsBoolean", option);
 }
 
-export function IsNumber(option: IPropDecoratorOption = {message: "", required: false}) {
-  return propDecorator((newValue: any, propertyKey: string | symbol): IPropValidateResponse => {
-    if (!validator.validateNumber(newValue)) {
-      return {
-        error: {
-          constraint: "IsNumber",
-          message: option.message || propertyKey.toString() + "is not a Number",
-          property: propertyKey.toString(),
-          value: newValue,
-        },
-      };
-    }
-    return {value: newValue};
-  });
+/**
+ * Validate number candidate
+ * Error if candidate is not a number type
+ * @param {IPropDecoratorOption} option - min / max parameters uses less/greater or equal comparison
+ * @returns {(target: any, propertyKey: (string | symbol)) => void}
+ * @constructor
+ */
+export function IsNumber(option: INumberPropDecorationOption =
+                             {message: "", required: false, min: undefined, max: undefined}) {
+  const validate = (candidate: any): boolean => (
+    validator.validateNumber(candidate)
+    && option.min ? candidate >= option.min : true
+    && option.max ? candidate <= option.max : true
+  );
+  return setterShortcut(validate, "IsNumber", option);
 }
 
-export function IsPositiveNumber(option: IPropDecoratorOption = {message: "", required: false}) {
-  return propDecorator((newValue: any, propertyKey: string | symbol): IPropValidateResponse => {
-    if (!validator.validatePositiveNumber(newValue)) {
-      return {
-        error: {
-          constraint: "IsPositiveNumber",
-          message: option.message || propertyKey.toString() + "is not a positive Number",
-          property: propertyKey.toString(),
-          value: newValue,
-        },
-      };
-    }
-    return {value: newValue};
-  });
+/**
+ * Validate positive number candidate
+ * Error if candidate is not a number type or not a positive number, include zero
+ * @param {IPropDecoratorOption} option - min / max parameters uses less/greater or equal comparison
+ * @returns {(target: any, propertyKey: (string | symbol)) => void}
+ * @constructor
+ */
+export function IsPositiveNumber(option: INumberPropDecorationOption =
+                                     {message: "", required: false, min: undefined, max: undefined}) {
+  const validate = (candidate: any): boolean => (
+      validator.validatePositiveNumber(candidate)
+      && option.min ? candidate >= option.min : true
+      && option.max ? candidate <= option.max : true
+  );
+  return setterShortcut(validate, "IsPositiveNumber", option);
 }
 
-export function IsPositiveOrZeroNumber(option: IPropDecoratorOption = {message: "", required: false}) {
-  return propDecorator((newValue: any, propertyKey: string | symbol): IPropValidateResponse => {
-    if (!validator.validatePositiveOrZeroNumber(newValue)) {
-      return {
-        error: {
-          constraint: "IsPositiveOrZeroNumber",
-          message: option.message || propertyKey.toString() + "is not a positive or zero Number",
-          property: propertyKey.toString(),
-          value: newValue,
-        },
-      };
-    }
-    return {value: newValue};
-  });
+/**
+ * Validate positive or zero number candidate
+ * Error if candidate is not a number type or not a positive number, except zero
+ * @param {IPropDecoratorOption} option - min / max parameters uses less/greater or equal comparison
+ * @returns {(target: any, propertyKey: (string | symbol)) => void}
+ * @constructor
+ */
+export function IsPositiveOrZeroNumber(option: INumberPropDecorationOption =
+                                           {message: "", required: false, min: undefined, max: undefined}) {
+  const validate = (candidate: any): boolean => (
+      validator.validatePositiveOrZeroNumber(candidate)
+      && option.min ? candidate >= option.min : true
+      && option.max ? candidate <= option.max : true
+  );
+  return setterShortcut(validate, "IsPositiveOrZeroNumber", option);
 }
 
+/**
+ * Validate not empty string candidate
+ * @param {IPropDecoratorOption} option
+ * @returns {(target: any, propertyKey: (string | symbol)) => void}
+ * @constructor
+ */
 export function NotEmptyString(option: IPropDecoratorOption = {message: "", required: false}) {
-  return propDecorator((newValue: any, propertyKey: string | symbol): IPropValidateResponse => {
-    if (!validator.validateNotEmptyString(newValue)) {
-      return {
-        error: {
-          constraint: "NotEmptyString",
-          message: option.message || propertyKey.toString() + "is not a String with content",
-          property: propertyKey.toString(),
-          value: newValue,
-        },
-      };
-    }
-    return {value: newValue};
-  });
+  return setterShortcut(validator.validateNotEmptyString, "NotEmptyString", option);
+}
+
+/**
+ * Validate email candidate
+ * @param {IPropDecoratorOption} option
+ * @returns {(target: any, propertyKey: (string | symbol)) => void}
+ * @constructor
+ */
+export function IsEmail(option: IPropDecoratorOption = {message: "", required: false}) {
+  return setterShortcut(validator.validateEmail, "IsEmail", option);
+}
+
+/**
+ * Validate phone candidate
+ * @param {IPropDecoratorOption} option
+ * @returns {(target: any, propertyKey: (string | symbol)) => void}
+ * @constructor
+ */
+export function IsPhone(option: IPropDecoratorOption = {message: "", required: false}) {
+  return setterShortcut(validator.validatePhone, "IsPhone", option);
 }

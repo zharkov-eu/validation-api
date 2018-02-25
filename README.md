@@ -59,12 +59,34 @@ console.error(fail.__validationError())
 
 ### Property decorator
 
+All decorator methods can take argument relevant to interface IPropDecoratorOption 
+
+```typescript
+interface IPropDecoratorOption {
+  message?: string;
+  required?: boolean;
+}
+```
+
+> Decorators IsNumber, IsPositiveNumber, IsPositiveOrZeroNumber can take extended options
+
+```typescript
+interface INumberPropDecorationOption extends IPropDecoratorOption {
+  min?: number;
+  max?: number;
+}
+```
+
+##### Decorator variants
+
 * NotEmpty
 * NotEmptyString
 * IsBoolean
 * IsNumber
 * IsPositiveNumber
 * IsPositiveOrZeroNumber
+* IsEmail
+* IsPhone
 
 ### Complex validation
 
