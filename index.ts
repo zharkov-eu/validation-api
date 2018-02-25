@@ -9,6 +9,10 @@ import * as api from "./src/decorator/api";
 import * as error from "./src/error";
 
 export const ValidationError = error.ValidationError;
+export class ValidationDomain {
+  // noinspection TsLint
+  public __validationError: () => error.IValidationErrorCause[] | undefined = () => undefined;
+}
 
 export const Validate = api.Validate;
 export const NotEmpty = api.NotEmpty;

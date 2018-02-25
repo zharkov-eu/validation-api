@@ -5,6 +5,8 @@ TypeScript Validation Api, based on decorators.
 ## Usage
 
 ```typescript
+import {Validate, ValidationError, IsBoolean} from "validation-api";
+
 @Validate()
 class TestDomain {
     @IsBoolean()
@@ -29,7 +31,9 @@ try {
 
 ### Class decorator
 
-@Validate({throwable: boolean}) - default {throwable: true}
+```typescript
+@Validate(option = {throwable: true})
+```
 
 If throwable is true throws ValidationError with array of cause on construct,
 else if throwable is false client code can get error cause array by calling "__validationError" method of object
@@ -37,8 +41,10 @@ else if throwable is false client code can get error cause array by calling "__v
 Example
 
 ```typescript
+import {Validate, ValidationDomain, IsBoolean} from "validation-api";
+
 @Validate({throwable: false})
-class TestDomain {
+class TestDomain extends ValidationDomain {
     @IsBoolean()
     public booleanValue;
     
@@ -47,7 +53,7 @@ class TestDomain {
     }
 }
 
-const fail = new TestDomain({booleanValue: false});
+const fail = new TestDomain({booleanValue: 1});
 console.error(fail.__validationError())
 ```
 
