@@ -10,7 +10,7 @@ import {Validate, ValidationError, IsBoolean} from "validation-api";
 @Validate()
 class TestDomain {
     @IsBoolean()
-    public booleanValue;
+    public booleanValue: boolean;
     
     constructor(entity: any) {
       this.booleanValue = entity.booleanValue;
@@ -46,7 +46,7 @@ import {Validate, ValidationDomain, IsBoolean} from "validation-api";
 @Validate({throwable: false})
 class TestDomain extends ValidationDomain {
     @IsBoolean()
-    public booleanValue;
+    public booleanValue: boolean;
     
     constructor(entity: any) {
       this.booleanValue = entity.booleanValue;
@@ -65,3 +65,55 @@ console.error(fail.__validationError())
 * IsNumber
 * IsPositiveNumber
 * IsPositiveOrZeroNumber
+
+### Complex validation
+
+```typescript
+import {Validate, ValidationError, IsBoolean, NotEmpty, IsPositiveNumber, NotEmptyString} from "validation-api";
+
+@Validate()
+class Person {
+    @NotEmptyString({message: "Name is required for person", required: true})
+    public name: string;
+
+    @IsPositiveNumber({message: "Person age must be a positive number"})
+    public age: number;
+
+    @IsBoolean()
+    public ready: boolean;
+    
+    constructor(entity: any) {
+        this.name = entity.name;
+        this.age = entity.age;
+        this.ready = entity.ready;
+    }
+}
+
+try {
+    const success = new Person({name: "Ivan", age: 24, ready: true});
+    const fail = new Person({name: "", age: 0, ready: 1});
+} catch (error) {
+    if (error instanceof ValidationError) {
+        console.error(error.cause)
+    } else {
+        throw error
+    }
+}
+```
+
+This example provides output in stderrr:
+
+```javascript
+[ { constraint: 'NotEmptyString',
+    message: 'Name is required for person',
+    property: 'name',
+    value: '' },
+  { constraint: 'IsPositiveNumber',
+    message: 'Person age must be a positive number',
+    property: 'age',
+    value: 0 },
+  { constraint: 'IsBoolean',
+    message: 'ready is not a Boolean',
+    property: 'ready',
+    value: 1 } ]
+```
