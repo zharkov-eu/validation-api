@@ -23,3 +23,4 @@ export const IsPositiveOrZeroNumber = api.IsPositiveOrZeroNumber;
 export const NotEmptyString = api.NotEmptyString;
 export const IsEmail = api.IsEmail;
 export const IsPhone = api.IsPhone;
+export const IsMemberOf = api.IsMemberOf;

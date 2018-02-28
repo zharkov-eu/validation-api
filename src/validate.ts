@@ -82,3 +82,14 @@ export function validatePhone(candidate: any): boolean {
   const re: RegExp = /^(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){10,14}(\s*)?$/;
   return validateNotEmptyString(candidate) && re.test(candidate);
 }
+
+/**
+ * Inclusive relation validation (indexof)
+ * Return true if candidate
+ * @param candidate
+ * @param {Array} inclusive
+ * @returns {boolean}
+ */
+export function validateInclusive(candidate: any, inclusive: any[]) {
+  return inclusive.indexOf(candidate) !== -1;
+}

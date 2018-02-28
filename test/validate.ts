@@ -6,6 +6,7 @@
 "use strict";
 
 import "mocha";
+
 import * as assert from "assert";
 import * as validator from "../src/validate";
 
@@ -78,5 +79,14 @@ describe("validateNotEmptyString test", () => {
   });
   it("return false if argument isn't string type", () => {
     assert.strictEqual(validator.validateNotEmptyString(1), false);
+  });
+});
+
+describe("validateInclusive test", () => {
+  it("return true if argument is member of inclusive", () => {
+    assert.strictEqual(validator.validateInclusive("ad", ["fa", "ad", "ba"]), true);
+  });
+  it("return false if argument is not member of inclusive", () => {
+    assert.strictEqual(validator.validateInclusive("ad", ["ba, cf", "cg"]), false);
   });
 });

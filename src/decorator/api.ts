@@ -19,6 +19,10 @@ export interface INumberPropDecorationOption extends IPropDecoratorOption {
   max?: number;
 }
 
+export interface IMemberOfPropDecorationOption extends IPropDecoratorOption {
+  array: any[];
+}
+
 function setterShortcut(validate: (candidate: any) => boolean, constraintName: string, option: IPropDecoratorOption) {
   return propDecorator((newValue: any, propertyKey: string | symbol): IPropValidateResponse => {
     if (!validate(newValue)) {
@@ -152,5 +156,15 @@ export function IsEmail(option: IPropDecoratorOption = {message: "", required: f
  * @constructor
  */
 export function IsPhone(option: IPropDecoratorOption = {message: "", required: false}) {
+  return setterShortcut(validator.validatePhone, "IsPhone", option);
+}
+
+/**
+ * Validate phone candidate
+ * @param {IPropDecoratorOption} option
+ * @returns {(target: any, propertyKey: (string | symbol)) => void}
+ * @constructor
+ */
+export function IsMemberOf(option: IMemberOfPropDecorationOption = {message: "", array: [], required: false}) {
   return setterShortcut(validator.validatePhone, "IsPhone", option);
 }
