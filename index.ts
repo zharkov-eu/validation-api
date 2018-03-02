@@ -6,6 +6,7 @@
 "use strict";
 
 import * as api from "./src/decorator/api";
+import * as shared from "./src/decorator/shared";
 import * as error from "./src/error";
 
 export const ValidationError = error.ValidationError;
@@ -14,7 +15,7 @@ export class ValidationDomain {
   public __validationError: () => error.IValidationErrorCause[] | undefined = () => undefined;
 }
 
-export const Validate = api.Validate;
+export const Validate = shared.Validate;
 export const NotEmpty = api.NotEmpty;
 export const IsBoolean = api.IsBoolean;
 export const IsNumber = api.IsNumber;

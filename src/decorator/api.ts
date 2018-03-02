@@ -5,9 +5,8 @@
 
 "use strict";
 
-import {ValidationError} from "../error";
 import * as validator from "../validate";
-import {errorContainer, IClassDecoratorOption, IPropValidateResponse, propDecorator} from "./shared";
+import {IPropValidateResponse, propDecorator} from "./shared";
 
 export interface IPropDecoratorOption {
   message?: string;
@@ -36,24 +35,7 @@ function setterShortcut(validate: (candidate: any) => boolean, constraintName: s
       };
     }
     return {value: newValue};
-  });
-}
-
-export function Validate(option: IClassDecoratorOption = {throwable: true}) {
-  return <T extends { new(...args: any[]): {} }>(target: T) => {
-    return class extends target {
-      constructor(...args) {
-        super(...args);
-        if (Reflect.has(this, errorContainer) && Reflect.get(this, errorContainer).length) {
-          if (option.throwable) {
-            throw new ValidationError(Reflect.get(this, errorContainer));
-          } else {
-            this["__validationError"] = () => Reflect.get(this, errorContainer);
-          }
-        }
-      }
-    };
-  };
+  }, option);
 }
 
 /**
@@ -88,9 +70,8 @@ export function IsBoolean(option: IPropDecoratorOption = {message: "", required:
 export function IsNumber(option: INumberPropDecorationOption =
                              {message: "", required: false, min: undefined, max: undefined}) {
   const validate = (candidate: any): boolean => (
-    validator.validateNumber(candidate)
-    && option.min ? candidate >= option.min : true
-    && option.max ? candidate <= option.max : true
+      validator.validateNumber(candidate)
+      && option.min ? candidate >= option.min : (option.max ? candidate <= option.max : true)
   );
   return setterShortcut(validate, "IsNumber", option);
 }
@@ -106,8 +87,7 @@ export function IsPositiveNumber(option: INumberPropDecorationOption =
                                      {message: "", required: false, min: undefined, max: undefined}) {
   const validate = (candidate: any): boolean => (
       validator.validatePositiveNumber(candidate)
-      && option.min ? candidate >= option.min : true
-      && option.max ? candidate <= option.max : true
+      && option.min ? candidate >= option.min : (option.max ? candidate <= option.max : true)
   );
   return setterShortcut(validate, "IsPositiveNumber", option);
 }
@@ -123,8 +103,7 @@ export function IsPositiveOrZeroNumber(option: INumberPropDecorationOption =
                                            {message: "", required: false, min: undefined, max: undefined}) {
   const validate = (candidate: any): boolean => (
       validator.validatePositiveOrZeroNumber(candidate)
-      && option.min ? candidate >= option.min : true
-      && option.max ? candidate <= option.max : true
+      && option.min ? candidate >= option.min : (option.max ? candidate <= option.max : true)
   );
   return setterShortcut(validate, "IsPositiveOrZeroNumber", option);
 }

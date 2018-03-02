@@ -8,7 +8,8 @@
 import "mocha";
 
 import * as assert from "assert";
-import {IsBoolean, Validate} from "../../src/decorator/api";
+import {Validate} from "../../index";
+import {IsBoolean} from "../../src/decorator/api";
 import {ValidationError} from "../../src/error";
 
 describe("Validate test", () => {
