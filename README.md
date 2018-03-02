@@ -87,6 +87,7 @@ interface INumberPropDecorationOption extends IPropDecoratorOption {
 * IsPositiveOrZeroNumber
 * IsEmail
 * IsPhone
+* MemberOf
 
 ### Complex validation
 
@@ -105,9 +106,13 @@ class Person {
     public ready: boolean;
     
     constructor(entity: any) {
+        if (!entity || typeof entity !== "object") {
+          // Prevent read property of undefined / not object argument
+          throw new Error("Argument of Person constructor not a object type")
+        }
         this.name = entity.name;
-        this.age = entity.age;
-        this.ready = entity.ready;
+        if (entity.age) { this.age = entity.age; } // If because setting to undefined throws a Validation error is not presented
+        if (entity.ready) { this.ready = entity.ready; } // See above
     }
 }
 
