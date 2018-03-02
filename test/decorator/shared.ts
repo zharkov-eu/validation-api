@@ -16,12 +16,14 @@ import {Validate} from "../../src/decorator/shared";
 class TestClass {
   @NotEmptyString({required: true})
   public requiredProperty: string;
-  @NotEmptyString({required: false})
+  @NotEmptyString()
   public optionalProperty?: string;
 
-  constructor(entity: {requiredProperty: string, optionalProperty?: string}) {
+  constructor(entity: { requiredProperty: string, optionalProperty?: string }) {
     this.requiredProperty = entity.requiredProperty;
-    this.optionalProperty = entity.optionalProperty;
+    if (entity.optionalProperty) {
+      this.optionalProperty = entity.optionalProperty;
+    }
     Object.seal(this);
   }
 }

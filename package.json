@@ -27,7 +27,5 @@
     "ts-node": "^5.0.0",
     "typescript": "^2.7.2"
   },
-  "dependencies": {
-    "reflect-metadata": "^0.1.12"
-  }
+  "dependencies": {}
 }

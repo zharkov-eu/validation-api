@@ -24,7 +24,7 @@ export function propDecorator(setter: (newValue: any, propertyKey: string | symb
     // required property processing
     if (option.required) {
       ensureProperty(target, requiredContainer, []);
-      this[requiredContainer] = [...this[requiredContainer], propertyKey];
+      target[requiredContainer] = [...target[requiredContainer], propertyKey];
     }
 
     // validation property processing
