@@ -23,6 +23,9 @@ describe("validateNotEmpty test", () => {
   it("return false if argument is NaN type", () => {
     assert.strictEqual(validator.validateNotEmpty(NaN), false);
   });
+  it("return false if argument is empty Array", () => {
+    assert.strictEqual(validator.validateNotEmptyString([]), false);
+  });
 });
 
 describe("validateBoolean test", () => {

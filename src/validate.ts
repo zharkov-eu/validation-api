@@ -45,12 +45,17 @@ export function validatePositiveOrZeroNumber(candidate: any): boolean {
 
 /**
  * Validate not empty candidate (===, isNaN)
- * Return false if candidate is undefined, null or NaN
+ * Return false if candidate is undefined, null or
+ * Not NaN if Number
+ * Not empty array if Array
  * @param candidate
  * @returns {boolean}
  */
 export function validateNotEmpty(candidate: any): boolean {
-  return candidate !== undefined && candidate !== null && !isNaN(candidate);
+  return candidate !== undefined
+      && candidate !== null
+      && (typeof candidate === "number" ? !isNaN(candidate) : true)
+      && (Array.isArray(candidate) ? candidate.length > 0 : true);
 }
 
 /**
