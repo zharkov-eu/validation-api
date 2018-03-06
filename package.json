@@ -1,6 +1,6 @@
 {
   "name": "validation-api",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "TypeScript Validation Api",
   "main": "index.js",
   "scripts": {

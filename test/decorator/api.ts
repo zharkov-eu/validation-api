@@ -8,7 +8,7 @@
 import "mocha";
 
 import * as assert from "assert";
-import {IsMemberOf, IsBoolean, Validate} from "../../index";
+import {IsMemberOf, IsBoolean, Validate, IsPositiveNumber} from "../../index";
 import {ValidationError} from "../../src/error";
 
 describe("Validate test", () => {
@@ -66,6 +66,27 @@ describe("IsBoolean test", () => {
 
   it("Construct object with valid argument is successful", () => {
     assert.doesNotThrow(() => new TestDomainThrowable({booleanValue: false}));
+  });
+});
+
+describe("Positive number test", () => {
+
+  @Validate()
+  class TestDomainThrowable {
+    @IsPositiveNumber()
+    public positiveNumber;
+
+    constructor(entity: any) {
+      this.positiveNumber = entity.positiveNumber;
+    }
+  }
+
+  it("Construct object with invalid argument throws error", () => {
+    assert.throws(() => new TestDomainThrowable({positiveNumber: -1}), ValidationError);
+  });
+
+  it("Construct object with valid argument is successful", () => {
+    assert.doesNotThrow(() => new TestDomainThrowable({positiveNumber: 1}));
   });
 });
 

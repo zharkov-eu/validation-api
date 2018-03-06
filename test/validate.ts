@@ -48,7 +48,7 @@ describe("validatePositiveNumber test", () => {
     assert.strictEqual(validator.validatePositiveNumber(1), true);
   });
   it("return false if argument is number type and less or equal 0", () => {
-    assert.strictEqual(validator.validatePositiveNumber(0), false);
+    assert.strictEqual(validator.validatePositiveNumber(-1), false);
   });
   it("return false if argument isn't number type", () => {
     assert.strictEqual(validator.validatePositiveNumber("something"), false);
