@@ -145,5 +145,6 @@ export function IsPhone(option: IPropDecoratorOption = {message: "", required: f
  * @constructor
  */
 export function IsMemberOf(option: IMemberOfPropDecorationOption = {message: "", array: [], required: false}) {
-  return setterShortcut(validator.validatePhone, "IsPhone", option);
+  const validate = (candidate: any) => validator.validateInclusive(candidate, option.array);
+  return setterShortcut(validate, "IsMemberOf", option);
 }
