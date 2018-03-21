@@ -30,7 +30,12 @@ export function propDecorator(setter: (newValue: any, propertyKey: string | symb
     // validation property processing
     const privateKey = "_" + propertyKey.toString();
     Reflect.deleteProperty(target, propertyKey);
+    Reflect.defineProperty(target, privateKey, {
+      enumerable: false,
+      writable: true,
+    });
     Reflect.defineProperty(target, propertyKey, {
+      enumerable: true,
       get: function() {
         return this[privateKey];
       },
