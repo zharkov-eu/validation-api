@@ -29,24 +29,33 @@ export function propDecorator(setter: (newValue: any, propertyKey: string | symb
 
     // validation property processing
     const privateKey = "_" + propertyKey.toString();
+    const getFunction = function() {
+      return this[privateKey];
+    };
+    const setFunction = function (newValue: any) {
+      const propValidateResponse = setter(newValue, propertyKey);
+      if (propValidateResponse.error) {
+        ensureProperty(this, errorContainer, []);
+        this[errorContainer] = [...this[errorContainer], propValidateResponse.error];
+      } else {
+        this[privateKey] = propValidateResponse.value;
+      }
+    };
     Reflect.deleteProperty(target, propertyKey);
-    Reflect.defineProperty(target, privateKey, {
-      enumerable: false,
-      writable: true,
-    });
     Reflect.defineProperty(target, propertyKey, {
       enumerable: true,
-      get: function() {
-        return this[privateKey];
-      },
+      get: getFunction,
       set: function(newValue: any) {
-        const propValidateResponse = setter(newValue, propertyKey);
-        if (propValidateResponse.error) {
-          ensureProperty(target, errorContainer, []);
-          this[errorContainer] = [...this[errorContainer], propValidateResponse.error];
-        } else {
-          this[privateKey] = propValidateResponse.value;
-        }
+        Reflect.defineProperty(this, privateKey, {
+          enumerable: false,
+          writable: true,
+        });
+        Reflect.defineProperty(this, propertyKey, {
+          enumerable: true,
+          get: getFunction,
+          set: setFunction,
+        });
+        setFunction.call(this, newValue);
       },
     });
   };
