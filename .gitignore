@@ -25,3 +25,6 @@ typings/
 
 # Generated js.map
 *.js.map
+
+# Index.js
+!index.js
