@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "declaration": true,
     "experimentalDecorators": true,
     "sourceMap": true,
     "target": "es2015",

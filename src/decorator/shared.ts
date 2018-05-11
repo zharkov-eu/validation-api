@@ -1,7 +1,7 @@
-/*------------------------------------------------------------------------------
- - Licensed under the MIT License. See License.txt in the project root for license information.
- - @author Evgeni Zharkov <zharkov.ev.u@yandex.ru>
- -----------------------------------------------------------------------------*/
+/*
+ * Licensed under the MIT License. See License.txt in the project root for license information.
+ * @author Evgeni Zharkov <zharkov.ev.u@yandex.ru>
+ */
 
 import {IValidationErrorCause, ValidationError} from "../error";
 import {IPropDecoratorOption} from "./api";
@@ -29,7 +29,7 @@ export function propDecorator(setter: (newValue: any, propertyKey: string | symb
 
     // validation property processing
     const privateKey = "_" + propertyKey.toString();
-    const getFunction = function() {
+    const getFunction = function () {
       return this[privateKey];
     };
     const setFunction = function (newValue: any) {
@@ -45,7 +45,7 @@ export function propDecorator(setter: (newValue: any, propertyKey: string | symb
     Reflect.defineProperty(target, propertyKey, {
       enumerable: true,
       get: getFunction,
-      set: function(newValue: any) {
+      set: function (newValue: any) {
         Reflect.defineProperty(this, privateKey, {
           enumerable: false,
           writable: true,

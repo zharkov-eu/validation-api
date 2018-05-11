@@ -23,8 +23,5 @@ typings/
 *.js
 /nbproject/private/
 
-# Generated d.ts
-*.d.ts
-
 # Generated js.map
 *.js.map

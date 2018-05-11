@@ -1,16 +1,25 @@
 {
   "extends": "tslint:recommended",
   "rules": {
-    "max-line-length": [true, 120],
+    "max-line-length": [
+      true,
+      120
+    ],
     "new-parens": true,
     "no-arg": true,
     "no-bitwise": true,
     "no-conditional-assignment": true,
-    "no-consecutive-blank-lines": [true, 2],
+    "no-consecutive-blank-lines": [
+      true,
+      2
+    ],
     "no-string-literal": false,
     "only-arrow-functions": false,
     "object-literal-shorthand": false,
     "interface-over-type-literal": false,
-    "max-classes-per-file": [true, 10]
+    "max-classes-per-file": [
+      true,
+      10
+    ]
   }
 }

@@ -1,16 +1,16 @@
-/*------------------------------------------------------------------------------
- - Licensed under the MIT License. See License.txt in the project root for license information.
- - @author Evgeni Zharkov <zharkov.ev.u@yandex.ru>
- -----------------------------------------------------------------------------*/
+/*
+ * Licensed under the MIT License. See License.txt in the project root for license information.
+ * @author Evgeni Zharkov <zharkov.ev.u@yandex.ru>
+ */
 
 "use strict";
 
 import "mocha";
 
 import * as assert from "assert";
-import {ValidationError} from "../../index";
 import {NotEmptyString} from "../../src/decorator/api";
 import {Validate} from "../../src/decorator/shared";
+import {ValidationError} from "../../src/error";
 
 @Validate({throwable: true})
 class TestClass {
