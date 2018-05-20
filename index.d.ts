@@ -26,10 +26,8 @@ interface IMemberOfPropDecorationOption extends IPropDecoratorOption, api.IMembe
 }
 
 export class ValidationError extends error.ValidationError {
-  public constraint: string;
-  public message: string;
-  public property: string;
-  public value: any;
+  public cause: IValidationErrorCause[];
+  constructor(cause: IValidationErrorCause[]);
 }
 
 export interface IValidationErrorCause extends error.IValidationErrorCause {
