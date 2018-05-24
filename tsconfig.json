@@ -1,8 +1,12 @@
 {
   "compilerOptions": {
+    "lib": [
+      "es2015",
+      "es2015.reflect"
+    ],
     "experimentalDecorators": true,
     "sourceMap": true,
-    "target": "es2015",
+    "target": "es5",
     "module": "commonjs"
   },
   "include": [
