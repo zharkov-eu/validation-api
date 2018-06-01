@@ -6,8 +6,8 @@
 import {IValidationErrorCause, ValidationError} from "../error";
 import {IPropDecoratorOption} from "./api";
 
-export const requiredContainer = Symbol("__requiredContainer");
-export const errorContainer = Symbol("__errorContainer");
+export const requiredContainer = "__requiredContainer";
+export const errorContainer = "__errorContainer";
 
 export interface IClassDecoratorOption {
   throwable?: boolean;
