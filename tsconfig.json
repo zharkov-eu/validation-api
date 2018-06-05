@@ -1,13 +1,8 @@
 {
   "compilerOptions": {
-    "lib": [
-      "es2015",
-      "es2015.reflect",
-      "es2015.symbol"
-    ],
     "experimentalDecorators": true,
     "sourceMap": true,
-    "target": "es5",
+    "target": "es2017",
     "module": "commonjs"
   },
   "include": [
