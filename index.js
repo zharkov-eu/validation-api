@@ -5,9 +5,9 @@
 
 "use strict";
 
-const api = require("./src/decorator/api");
-const shared = require("./src/decorator/shared");
-const error = require("./src/error");
+var api = require("./src/decorator/api");
+var shared = require("./src/decorator/shared");
+var error = require("./src/error");
 
 exports.ValidationError = error.ValidationError;
 
