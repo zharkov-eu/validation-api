@@ -8,11 +8,11 @@
 import "mocha";
 
 import * as assert from "assert";
-import {IsMemberOf, IsBoolean, Validate, IsPositiveNumber} from "../../index";
-import {ValidationError} from "../../src/error";
+import { IsBoolean, IsMemberOf, IsPositiveNumber, Validate } from "../../index";
+import { ValidationError } from "../../src/error";
 
 describe("Validate test", () => {
-  @Validate({throwable: false})
+  @Validate({ throwable: false })
   class TestDomain {
     @IsBoolean()
     public booleanValue;
@@ -33,18 +33,18 @@ describe("Validate test", () => {
   }
 
   it("Construct object with invalid argument on throwable class throws error", () => {
-    assert.throws(() => new TestDomainThrowable({booleanValue: 1}), ValidationError);
+    assert.throws(() => new TestDomainThrowable({ booleanValue: 1 }), ValidationError);
   });
 
   it("Construct object with invalid argument on throwable class doesn't throws error", () => {
     assert.doesNotThrow(() => {
-      const test = new TestDomain({booleanValue: 1});
+      const test = new TestDomain({ booleanValue: 1 });
       assert.equal(test["__validationError"]().length === 1, true);
     });
   });
 
   it("Construct object with valid argument is successful", () => {
-    assert.doesNotThrow(() => new TestDomainThrowable({booleanValue: false}));
+    assert.doesNotThrow(() => new TestDomainThrowable({ booleanValue: false }));
   });
 });
 
@@ -61,11 +61,11 @@ describe("IsBoolean test", () => {
   }
 
   it("Construct object with invalid argument throws error", () => {
-    assert.throws(() => new TestDomainThrowable({booleanValue: 1}), ValidationError);
+    assert.throws(() => new TestDomainThrowable({ booleanValue: 1 }), ValidationError);
   });
 
   it("Construct object with valid argument is successful", () => {
-    assert.doesNotThrow(() => new TestDomainThrowable({booleanValue: false}));
+    assert.doesNotThrow(() => new TestDomainThrowable({ booleanValue: false }));
   });
 });
 
@@ -82,11 +82,11 @@ describe("Positive number test", () => {
   }
 
   it("Construct object with invalid argument throws error", () => {
-    assert.throws(() => new TestDomainThrowable({positiveNumber: -1}), ValidationError);
+    assert.throws(() => new TestDomainThrowable({ positiveNumber: -1 }), ValidationError);
   });
 
   it("Construct object with valid argument is successful", () => {
-    assert.doesNotThrow(() => new TestDomainThrowable({positiveNumber: 1}));
+    assert.doesNotThrow(() => new TestDomainThrowable({ positiveNumber: 1 }));
   });
 });
 
@@ -94,7 +94,7 @@ describe("IsMemberOf test", () => {
 
   @Validate()
   class TestDomainThrowable {
-    @IsMemberOf({array: ["ab", "ac", "ad"]})
+    @IsMemberOf({ array: ["ab", "ac", "ad"] })
     public memberValue;
 
     constructor(entity: any) {
@@ -103,10 +103,10 @@ describe("IsMemberOf test", () => {
   }
 
   it("Construct object with invalid argument throws error", () => {
-    assert.throws(() => new TestDomainThrowable({memberValue: "ba"}), ValidationError);
+    assert.throws(() => new TestDomainThrowable({ memberValue: "ba" }), ValidationError);
   });
 
   it("Construct object with valid argument is successful", () => {
-    assert.doesNotThrow(() => new TestDomainThrowable({memberValue: "ac"}));
+    assert.doesNotThrow(() => new TestDomainThrowable({ memberValue: "ac" }));
   });
 });

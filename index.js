@@ -5,17 +5,17 @@
 
 "use strict";
 
-const api = require("./src/decorator/api");
-const shared = require("./src/decorator/shared");
-const error = require("./src/error");
+var api = require("./src/decorator/api");
+var shared = require("./src/decorator/shared");
+var error = require("./src/error");
 
 exports.ValidationError = error.ValidationError;
 
 function ValidationDomain() {
-    this.__validationError = function () {
-        return undefined;
-    };
-    return this;
+  this.__validationError = function () {
+    return undefined;
+  };
+  return this;
 }
 
 exports.ValidationDomain = ValidationDomain;
@@ -27,6 +27,7 @@ exports.IsNumber = api.IsNumber;
 exports.IsPositiveNumber = api.IsPositiveNumber;
 exports.IsPositiveOrZeroNumber = api.IsPositiveOrZeroNumber;
 exports.NotEmptyString = api.NotEmptyString;
+exports.IsArray = api.IsArray;
 exports.IsEmail = api.IsEmail;
 exports.IsPhone = api.IsPhone;
 exports.IsMemberOf = api.IsMemberOf;

@@ -6,7 +6,7 @@
 "use strict";
 
 import * as validator from "../validate";
-import {IPropValidateResponse, propDecorator} from "./shared";
+import { IPropValidateResponse, propDecorator } from "./shared";
 
 export interface IPropDecoratorOption {
   message?: string;
@@ -34,7 +34,7 @@ function setterShortcut(validate: (candidate: any) => boolean, constraintName: s
         },
       };
     }
-    return {value: newValue};
+    return { value: newValue };
   }, option);
 }
 
@@ -45,7 +45,7 @@ function setterShortcut(validate: (candidate: any) => boolean, constraintName: s
  * @returns {(target: any, propertyKey: (string | symbol)) => void}
  * @constructor
  */
-export function NotEmpty(option: IPropDecoratorOption = {message: "", required: false}) {
+export function NotEmpty(option: IPropDecoratorOption = { message: "", required: false }) {
   return setterShortcut(validator.validateNotEmpty, "NotEmpty", option);
 }
 
@@ -56,7 +56,7 @@ export function NotEmpty(option: IPropDecoratorOption = {message: "", required: 
  * @returns {(target: any, propertyKey: (string | symbol)) => void}
  * @constructor
  */
-export function IsBoolean(option: IPropDecoratorOption = {message: "", required: false}) {
+export function IsBoolean(option: IPropDecoratorOption = { message: "", required: false }) {
   return setterShortcut(validator.validateBoolean, "IsBoolean", option);
 }
 
@@ -68,7 +68,7 @@ export function IsBoolean(option: IPropDecoratorOption = {message: "", required:
  * @constructor
  */
 export function IsNumber(option: INumberPropDecorationOption =
-                             {message: "", required: false, min: undefined, max: undefined}) {
+                             { message: "", required: false, min: undefined, max: undefined }) {
   const validate = (candidate: any): boolean => (
       validator.validateNumber(candidate)
       && (option.min ? candidate >= option.min : true)
@@ -85,7 +85,7 @@ export function IsNumber(option: INumberPropDecorationOption =
  * @constructor
  */
 export function IsPositiveNumber(option: INumberPropDecorationOption =
-                                     {message: "", required: false, min: undefined, max: undefined}) {
+                                     { message: "", required: false, min: undefined, max: undefined }) {
   const validate = (candidate: any): boolean =>
       validator.validatePositiveNumber(candidate)
       && (option.min ? candidate >= option.min : true)
@@ -101,7 +101,7 @@ export function IsPositiveNumber(option: INumberPropDecorationOption =
  * @constructor
  */
 export function IsPositiveOrZeroNumber(option: INumberPropDecorationOption =
-                                           {message: "", required: false, min: undefined, max: undefined}) {
+                                           { message: "", required: false, min: undefined, max: undefined }) {
   const validate = (candidate: any): boolean => (
       validator.validatePositiveOrZeroNumber(candidate)
       && (option.min ? candidate >= option.min : true)
@@ -116,8 +116,18 @@ export function IsPositiveOrZeroNumber(option: INumberPropDecorationOption =
  * @returns {(target: any, propertyKey: (string | symbol)) => void}
  * @constructor
  */
-export function NotEmptyString(option: IPropDecoratorOption = {message: "", required: false}) {
+export function NotEmptyString(option: IPropDecoratorOption = { message: "", required: false }) {
   return setterShortcut(validator.validateNotEmptyString, "NotEmptyString", option);
+}
+
+/**
+ * Validate array value
+ * @param {IPropDecoratorOption} option
+ * @returns {(target: any, propertyKey: (string | symbol)) => void}
+ * @constructor
+ */
+export function IsArray(option: IPropDecoratorOption = { message: "", required: false }) {
+  return setterShortcut(validator.validateArray, "IsArray", option);
 }
 
 /**
@@ -126,7 +136,7 @@ export function NotEmptyString(option: IPropDecoratorOption = {message: "", requ
  * @returns {(target: any, propertyKey: (string | symbol)) => void}
  * @constructor
  */
-export function IsEmail(option: IPropDecoratorOption = {message: "", required: false}) {
+export function IsEmail(option: IPropDecoratorOption = { message: "", required: false }) {
   return setterShortcut(validator.validateEmail, "IsEmail", option);
 }
 
@@ -136,7 +146,7 @@ export function IsEmail(option: IPropDecoratorOption = {message: "", required: f
  * @returns {(target: any, propertyKey: (string | symbol)) => void}
  * @constructor
  */
-export function IsPhone(option: IPropDecoratorOption = {message: "", required: false}) {
+export function IsPhone(option: IPropDecoratorOption = { message: "", required: false }) {
   return setterShortcut(validator.validatePhone, "IsPhone", option);
 }
 
@@ -146,7 +156,7 @@ export function IsPhone(option: IPropDecoratorOption = {message: "", required: f
  * @returns {(target: any, propertyKey: (string | symbol)) => void}
  * @constructor
  */
-export function IsMemberOf(option: IMemberOfPropDecorationOption = {message: "", array: [], required: false}) {
+export function IsMemberOf(option: IMemberOfPropDecorationOption = { message: "", array: [], required: false }) {
   const validate = (candidate: any) => validator.validateInclusive(candidate, option.array);
   return setterShortcut(validate, "IsMemberOf", option);
 }

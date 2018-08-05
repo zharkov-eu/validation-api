@@ -8,13 +8,13 @@
 import "mocha";
 
 import * as assert from "assert";
-import {NotEmptyString} from "../../src/decorator/api";
-import {Validate} from "../../src/decorator/shared";
-import {ValidationError} from "../../src/error";
+import { NotEmptyString } from "../../src/decorator/api";
+import { Validate } from "../../src/decorator/shared";
+import { ValidationError } from "../../src/error";
 
-@Validate({throwable: true})
+@Validate({ throwable: true })
 class TestClass {
-  @NotEmptyString({required: true})
+  @NotEmptyString({ required: true })
   public requiredProperty: string;
   @NotEmptyString()
   public optionalProperty?: string;
@@ -31,19 +31,19 @@ class TestClass {
 describe("Validate decorator test", () => {
   it("Successful construct class with all arguments", () => {
     assert.doesNotThrow(() => {
-      const test = new TestClass({requiredProperty: "some", optionalProperty: "next"});
+      const test = new TestClass({ requiredProperty: "some", optionalProperty: "next" });
     });
   });
 
   it("Successful construct class without optional property arguments", () => {
     assert.doesNotThrow(() => {
-      const test = new TestClass({requiredProperty: "some"});
+      const test = new TestClass({ requiredProperty: "some" });
     });
   });
 
   it("Throw error when required property not presented", () => {
     assert.throws(() => {
-      const test = new TestClass({optionalProperty: "text"} as any);
+      const test = new TestClass({ optionalProperty: "text" } as any);
     }, ValidationError);
   });
 });

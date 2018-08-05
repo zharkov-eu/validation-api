@@ -85,6 +85,15 @@ describe("validateNotEmptyString test", () => {
   });
 });
 
+describe("validateIsArray test", () => {
+  it("return false if argument isn't array type", () => {
+    assert.strictEqual(validator.validateArray({}), false);
+  });
+  it("return true if argument is empty Array", () => {
+    assert.strictEqual(validator.validateArray([]), true);
+  });
+});
+
 describe("validateInclusive test", () => {
   it("return true if argument is member of inclusive", () => {
     assert.strictEqual(validator.validateInclusive("ad", ["fa", "ad", "ba"]), true);

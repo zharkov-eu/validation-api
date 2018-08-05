@@ -27,6 +27,7 @@ interface IMemberOfPropDecorationOption extends IPropDecoratorOption, api.IMembe
 
 export class ValidationError extends error.ValidationError {
   public cause: IValidationErrorCause[];
+
   constructor(cause: IValidationErrorCause[]);
 }
 
@@ -38,9 +39,11 @@ export interface IValidationErrorCause extends error.IValidationErrorCause {
 }
 
 export declare class ValidationDomain {
-  __validationError: () => IValidationErrorCause[] | undefined;
+  // tslint:disable-next-line:variable-name
+  public __validationError: () => IValidationErrorCause[] | undefined;
 }
 
+// tslint:disable-next-line:max-line-length
 export declare const Validate: (option?: IClassDecoratorOption) => <T extends { new(...args: any[]): {} }>(target: T) => any;
 export declare const NotEmpty: (option?: IPropDecoratorOption) => any;
 export declare const IsBoolean: (option?: IPropDecoratorOption) => any;
