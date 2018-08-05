@@ -3,8 +3,8 @@
  * @author Evgeni Zharkov <zharkov.ev.u@yandex.ru>
  */
 
-import {IValidationErrorCause, ValidationError} from "../error";
-import {IPropDecoratorOption} from "./api";
+import { IValidationErrorCause, ValidationError } from "../error";
+import { IPropDecoratorOption } from "./api";
 
 export const requiredContainer = "__requiredContainer";
 export const errorContainer = "__errorContainer";
@@ -29,10 +29,10 @@ export function propDecorator(setter: (newValue: any, propertyKey: string | symb
 
     // validation property processing
     const privateKey = "_" + propertyKey.toString();
-    const getFunction = function () {
+    const getFunction = function() {
       return this[privateKey];
     };
-    const setFunction = function (newValue: any) {
+    const setFunction = function(newValue: any) {
       const propValidateResponse = setter(newValue, propertyKey);
       if (propValidateResponse.error) {
         ensureProperty(this, errorContainer, []);
@@ -45,7 +45,7 @@ export function propDecorator(setter: (newValue: any, propertyKey: string | symb
     Reflect.defineProperty(target, propertyKey, {
       enumerable: true,
       get: getFunction,
-      set: function (newValue: any) {
+      set: function(newValue: any) {
         Reflect.defineProperty(this, privateKey, {
           enumerable: false,
           writable: true,
@@ -61,7 +61,7 @@ export function propDecorator(setter: (newValue: any, propertyKey: string | symb
   };
 }
 
-export function Validate(option: IClassDecoratorOption = {throwable: true}) {
+export function Validate(option: IClassDecoratorOption = { throwable: true }) {
   return <T extends { new(...args: any[]): {} }>(target: T) => {
     return class extends target {
       constructor(...args) {

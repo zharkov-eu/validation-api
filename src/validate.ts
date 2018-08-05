@@ -68,6 +68,15 @@ export function validateNotEmptyString(candidate: any): boolean {
 }
 
 /**
+ * Validate array value (Array.isArray())
+ * @param candidate
+ * @returns {boolean}
+ */
+export function validateArray(candidate: any): boolean {
+  return Array.isArray(candidate);
+}
+
+/**
  * Email validation (RegExp)
  * @param candidate
  * @returns {boolean}
