@@ -51,6 +51,7 @@ export declare const IsNumber: (option?: INumberPropDecorationOption) => any;
 export declare const IsPositiveNumber: (option?: INumberPropDecorationOption) => any;
 export declare const IsPositiveOrZeroNumber: (option?: INumberPropDecorationOption) => any;
 export declare const NotEmptyString: (option?: IPropDecoratorOption) => any;
+export declare const IsArray: (option?: IPropDecoratorOption) => any;
 export declare const IsEmail: (option?: IPropDecoratorOption) => any;
 export declare const IsPhone: (option?: IPropDecoratorOption) => any;
 export declare const IsMemberOf: (option?: IMemberOfPropDecorationOption) => any;
