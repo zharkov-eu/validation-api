@@ -3,6 +3,7 @@
  * @author Evgeni Zharkov <zharkov.ev.u@yandex.ru>
  */
 
+import * as abstract from "./src/abstract";
 import * as api from "./src/decorator/api";
 import * as shared from "./src/decorator/shared";
 import * as error from "./src/error";
@@ -23,6 +24,10 @@ interface INumberPropDecorationOption extends IPropDecoratorOption, api.INumberP
 
 interface IMemberOfPropDecorationOption extends IPropDecoratorOption, api.IMemberOfPropDecorationOption {
   array: any[];
+}
+
+export class AbstractValidated extends abstract.AbstractValidated {
+  constructor(entity: any);
 }
 
 export class ValidationError extends error.ValidationError {
