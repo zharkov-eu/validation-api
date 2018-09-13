@@ -50,6 +50,7 @@ export declare const IsBoolean: (option?: IPropDecoratorOption) => any;
 export declare const IsNumber: (option?: INumberPropDecorationOption) => any;
 export declare const IsPositiveNumber: (option?: INumberPropDecorationOption) => any;
 export declare const IsPositiveOrZeroNumber: (option?: INumberPropDecorationOption) => any;
+export declare const IsString: (option?: IPropDecoratorOption) => any;
 export declare const NotEmptyString: (option?: IPropDecoratorOption) => any;
 export declare const IsArray: (option?: IPropDecoratorOption) => any;
 export declare const IsEmail: (option?: IPropDecoratorOption) => any;

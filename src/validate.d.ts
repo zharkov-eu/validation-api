@@ -34,6 +34,12 @@ export declare function validatePositiveOrZeroNumber(candidate: any): boolean;
  */
 export declare function validateNotEmpty(candidate: any): boolean;
 /**
+ * Validate string (typeof)
+ * @param candidate
+ * @returns {boolean}
+ */
+export declare function validateString(candidate: any): boolean;
+/**
  * Validation of not empty string (typeof)
  * @param candidate
  * @returns {boolean}

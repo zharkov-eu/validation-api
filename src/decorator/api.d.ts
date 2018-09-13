@@ -50,6 +50,13 @@ export declare function IsPositiveNumber(option?: INumberPropDecorationOption): 
  */
 export declare function IsPositiveOrZeroNumber(option?: INumberPropDecorationOption): (target: any, propertyKey: string | symbol) => void;
 /**
+ * Validate is string candidate
+ * @param {IPropDecoratorOption} option
+ * @returns {(target: any, propertyKey: (string | symbol)) => void}
+ * @constructor
+ */
+export declare function IsString(option?: IPropDecoratorOption): (target: any, propertyKey: string | symbol) => void;
+/**
  * Validate not empty string candidate
  * @param {IPropDecoratorOption} option
  * @returns {(target: any, propertyKey: (string | symbol)) => void}

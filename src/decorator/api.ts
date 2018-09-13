@@ -111,6 +111,16 @@ export function IsPositiveOrZeroNumber(option: INumberPropDecorationOption =
 }
 
 /**
+ * Validate is string candidate
+ * @param {IPropDecoratorOption} option
+ * @returns {(target: any, propertyKey: (string | symbol)) => void}
+ * @constructor
+ */
+export function IsString(option: IPropDecoratorOption = { message: "", required: false }) {
+  return setterShortcut(validator.validateString, "IsString", option);
+}
+
+/**
  * Validate not empty string candidate
  * @param {IPropDecoratorOption} option
  * @returns {(target: any, propertyKey: (string | symbol)) => void}
