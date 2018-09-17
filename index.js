@@ -11,7 +11,7 @@ var shared = require("./src/decorator/shared");
 var error = require("./src/error");
 
 
-exports.AbsctractValidated = abstract.AbstractValidated;
+exports.AbstractValidated = abstract.AbstractValidated;
 exports.ValidationError = error.ValidationError;
 
 function ValidationDomain() {
