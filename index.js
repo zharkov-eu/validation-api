@@ -5,10 +5,10 @@
 
 "use strict";
 
+var abstract = require("./src/abstract");
 var api = require("./src/decorator/api");
 var shared = require("./src/decorator/shared");
 var error = require("./src/error");
-
 
 exports.AbstractValidated = abstract.AbstractValidated;
 exports.ValidationError = error.ValidationError;
