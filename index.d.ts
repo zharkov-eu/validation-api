@@ -3,6 +3,7 @@
  * @author Evgeni Zharkov <zharkov.ev.u@yandex.ru>
  */
 
+import * as abstract from "./src/abstract";
 import * as api from "./src/decorator/api";
 import * as shared from "./src/decorator/shared";
 import * as error from "./src/error";
@@ -23,6 +24,10 @@ interface INumberPropDecorationOption extends IPropDecoratorOption, api.INumberP
 
 interface IMemberOfPropDecorationOption extends IPropDecoratorOption, api.IMemberOfPropDecorationOption {
   array: any[];
+}
+
+export class AbstractValidated extends abstract.AbstractValidated {
+  constructor(entity: any);
 }
 
 export class ValidationError extends error.ValidationError {
@@ -50,6 +55,7 @@ export declare const IsBoolean: (option?: IPropDecoratorOption) => any;
 export declare const IsNumber: (option?: INumberPropDecorationOption) => any;
 export declare const IsPositiveNumber: (option?: INumberPropDecorationOption) => any;
 export declare const IsPositiveOrZeroNumber: (option?: INumberPropDecorationOption) => any;
+export declare const IsString: (option?: IPropDecoratorOption) => any;
 export declare const NotEmptyString: (option?: IPropDecoratorOption) => any;
 export declare const IsArray: (option?: IPropDecoratorOption) => any;
 export declare const IsEmail: (option?: IPropDecoratorOption) => any;

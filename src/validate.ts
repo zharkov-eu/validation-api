@@ -59,12 +59,30 @@ export function validateNotEmpty(candidate: any): boolean {
 }
 
 /**
+ * Validate string (typeof)
+ * @param candidate
+ * @returns {boolean}
+ */
+export function validateString(candidate: any): boolean {
+  return typeof candidate === "string";
+}
+
+/**
  * Validation of not empty string (typeof)
  * @param candidate
  * @returns {boolean}
  */
 export function validateNotEmptyString(candidate: any): boolean {
-  return typeof candidate === "string" && candidate.length > 0;
+  return validateString(candidate) && candidate.trim().length > 0;
+}
+
+/**
+ * Validate array value (Array.isArray())
+ * @param candidate
+ * @returns {boolean}
+ */
+export function validateArray(candidate: any): boolean {
+  return Array.isArray(candidate);
 }
 
 /**
