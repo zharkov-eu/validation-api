@@ -5,9 +5,11 @@
 
 "use strict";
 
-import { ValidationError } from "./error";
+import { ValidationError, IValidationErrorCause } from "./error";
 
 export abstract class AbstractValidated {
+  public abstract __validationError: () =>  IValidationErrorCause[];
+
   protected constructor(entity: any) {
     if (typeof entity !== "object") {
       throw new ValidationError([{
