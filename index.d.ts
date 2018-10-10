@@ -26,7 +26,7 @@ interface IMemberOfPropDecorationOption extends IPropDecoratorOption, api.IMembe
   array: any[];
 }
 
-export abstract class AbstractValidated extends abstract.AbstractValidated {
+export class AbstractValidated extends abstract.AbstractValidated {
   constructor(entity: any);
 }
 
