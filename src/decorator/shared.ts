@@ -4,7 +4,7 @@
  */
 
 import { IValidationErrorCause, ValidationError } from "../error";
-import { IPropDecoratorOption } from "./api";
+import { Constraint, IPropDecoratorOption } from "./api";
 
 export const requiredContainer = "__requiredContainer";
 export const errorContainer = "__errorContainer";
@@ -74,7 +74,7 @@ export function Validate(option: IClassDecoratorOption = { throwable: true }) {
             if (!Reflect.has(this, propertyKey) || Reflect.get(this, propertyKey) === undefined) {
               ensureProperty(this, errorContainer, []);
               this[errorContainer] = [...this[errorContainer], {
-                constraint: "Required",
+                constraint: Constraint.Required,
                 message: propertyKey.toString() + " is required",
                 property: propertyKey.toString(),
                 value: undefined,

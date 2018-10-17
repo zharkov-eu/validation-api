@@ -5,6 +5,7 @@
 
 import * as abstract from "./src/abstract";
 import * as api from "./src/decorator/api";
+import { Constraint } from "./src/decorator/api";
 import * as shared from "./src/decorator/shared";
 import * as error from "./src/error";
 
@@ -37,7 +38,7 @@ export class ValidationError extends error.ValidationError {
 }
 
 export interface IValidationErrorCause extends error.IValidationErrorCause {
-  constraint: string;
+  constraint: Constraint;
   message: string;
   property: string;
   value: any;

@@ -9,6 +9,21 @@ export interface INumberPropDecorationOption extends IPropDecoratorOption {
 export interface IMemberOfPropDecorationOption extends IPropDecoratorOption {
     array: any[];
 }
+export declare enum Constraint {
+    IsArray = "IsArray",
+    IsBoolean = "IsBoolean",
+    IsEmail = "IsEmail",
+    IsMemberOf = "IsMemberOf",
+    IsNumber = "IsNumber",
+    IsPhone = "IsPhone",
+    IsPositiveNumber = "IsPositiveNumber",
+    IsPositiveOrZeroNumber = "IsPositiveOrZeroNumber",
+    IsPresented = "IsPresented",
+    IsString = "IsString",
+    NotEmpty = "NotEmpty",
+    NotEmptyString = "NotEmptyString",
+    Required = "Required"
+}
 /**
  * Validate not empty candidate
  * Error if candidate is undefined, null or NaN

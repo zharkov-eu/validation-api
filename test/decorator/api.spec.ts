@@ -8,16 +8,18 @@
 import "mocha";
 
 import * as assert from "assert";
-import { IsBoolean, IsMemberOf, IsPositiveNumber, Validate } from "../../index";
+import { IsBoolean, IsMemberOf, IsPositiveNumber, Validate, ValidationDomain } from "../../index";
+import { Constraint } from "../../src/decorator/api";
 import { ValidationError } from "../../src/error";
 
 describe("Validate test", () => {
   @Validate({ throwable: false })
-  class TestDomain {
+  class TestDomain extends ValidationDomain {
     @IsBoolean()
     public booleanValue;
 
     constructor(entity: any) {
+      super();
       this.booleanValue = entity.booleanValue;
     }
   }
@@ -39,7 +41,8 @@ describe("Validate test", () => {
   it("Construct object with invalid argument on throwable class doesn't throws error", () => {
     assert.doesNotThrow(() => {
       const test = new TestDomain({ booleanValue: 1 });
-      assert.equal(test["__validationError"]().length === 1, true);
+      assert.strictEqual(test.__validationError().length, 1);
+      assert.strictEqual(test.__validationError()[0].constraint, Constraint.IsBoolean);
     });
   });
 
@@ -49,7 +52,6 @@ describe("Validate test", () => {
 });
 
 describe("IsBoolean test", () => {
-
   @Validate()
   class TestDomainThrowable {
     @IsBoolean()
@@ -70,7 +72,6 @@ describe("IsBoolean test", () => {
 });
 
 describe("Positive number test", () => {
-
   @Validate()
   class TestDomainThrowable {
     @IsPositiveNumber()

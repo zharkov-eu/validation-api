@@ -74,8 +74,11 @@ describe("validatePositiveOrZeroNumber test", () => {
 });
 
 describe("validateNotEmptyString test", () => {
-  it("return true if argument is string type and not empty", () => {
-    assert.strictEqual(validator.validateNotEmptyString(" "), true);
+  it("return true if argument is string type and not blank", () => {
+    assert.strictEqual(validator.validateNotEmptyString("ab"), true);
+  });
+  it("return false if argument is string type and blank", () => {
+    assert.strictEqual(validator.validateNotEmptyString(" "), false);
   });
   it("return false if argument is string type and empty", () => {
     assert.strictEqual(validator.validateNotEmptyString(""), false);

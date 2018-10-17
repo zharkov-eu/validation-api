@@ -1,5 +1,6 @@
+import { Constraint } from "./decorator/api";
 export interface IValidationErrorCause {
-    constraint: string;
+    constraint: Constraint;
     message: string;
     property: string;
     value: any;

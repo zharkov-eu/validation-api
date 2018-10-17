@@ -5,15 +5,17 @@
 
 "use strict";
 
-import { ValidationError, IValidationErrorCause } from "./error";
+import { Constraint } from "./decorator/api";
+import { IValidationErrorCause, ValidationError } from "./error";
 
 export abstract class AbstractValidated {
+  // tslint:disable-next-line
   public __validationError: () =>  IValidationErrorCause[];
 
   protected constructor(entity: any) {
     if (typeof entity !== "object") {
       throw new ValidationError([{
-        constraint: "isPresented",
+        constraint: Constraint.IsPresented,
         message: "No entity presented",
         property: "",
         value: "",
