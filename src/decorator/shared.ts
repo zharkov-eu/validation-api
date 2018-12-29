@@ -58,11 +58,10 @@ export function propDecorator(setter: (newValue: any, propertyKey: string | symb
 }
 
 export function Validate() {
-  return <T extends new(...args: any[]) => {}>(target: T) => {
+  return <T extends new(...args: any[]) => any>(target: T) => {
     return class extends target {
       constructor(...args) {
         super(...args);
-
         // required property processing
         if (Reflect.has(this, requiredContainer) && Reflect.get(this, requiredContainer).length) {
           const requiredProps = Reflect.get(this, requiredContainer);
@@ -81,6 +80,13 @@ export function Validate() {
 
         // property validation processing
         if (Reflect.has(this, errorContainer) && Reflect.get(this, errorContainer).length) {
+          const messages = Reflect.getPrototypeOf(this).constructor["messages"];
+          // error messages processing
+          if (messages)
+            for (const error of Reflect.get(this, errorContainer) as ValidationError[])
+              if (error.message.startsWith("{") && error.message.endsWith("}"))
+                error.message = messages[error.message.slice(1, error.message.length - 1)] || error.message;
+
           throw new ValidationError(Reflect.get(this, errorContainer));
         }
 

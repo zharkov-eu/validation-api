@@ -9,6 +9,12 @@ import { Constraint } from "./decorator/api";
 import { ValidationError } from "./error";
 
 export abstract class AbstractValidated {
+  public static messages: { [key: string]: string };
+
+  public static setMessages(messages: { [key: string]: string }) {
+    this.messages = messages;
+  }
+
   protected constructor(entity: any) {
     if (typeof entity !== "object") {
       throw new ValidationError([{

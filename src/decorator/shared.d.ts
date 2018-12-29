@@ -7,6 +7,8 @@ export interface IPropValidateResponse {
     value?: any;
 }
 export declare function propDecorator(setter: (newValue: any, propertyKey: string | symbol) => IPropValidateResponse, option: IPropDecoratorOption): (target: any, propertyKey: string | symbol) => void;
-export declare function Validate(): <T extends new (...args: any[]) => {}>(target: T) => {
-    new (...args: any[]): {};
+export declare function Validate(): <T extends new (...args: any[]) => any>(target: T) => {
+    new (...args: any[]): {
+        [x: string]: any;
+    };
 } & T;

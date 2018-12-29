@@ -8,7 +8,8 @@
 import "mocha";
 
 import * as assert from "assert";
-import { AbstractValidated, NotEmptyString, Validate, ValidationError } from "../../index";
+import { NotEmptyString, Validate, ValidationError } from "../../index";
+import { AbstractValidated } from "../../src/abstract";
 
 @Validate()
 class TestClass extends AbstractValidated {
@@ -43,5 +44,43 @@ describe("Validate decorator test", () => {
     assert.throws(() => {
       const test = new TestClass({ optionalProperty: "text" } as any);
     }, ValidationError);
+  });
+});
+
+@Validate()
+class TestMessageClass extends AbstractValidated {
+  @NotEmptyString({ required: true, message: "{requiredProperty}" })
+  public requiredProperty: string;
+
+  constructor(entity: { requiredProperty: string, optionalProperty?: string }) {
+    super(entity);
+    this.requiredProperty = entity.requiredProperty;
+  }
+}
+
+describe("Validate decorator message test", () => {
+  it("Return raw error message when setMessages not called", () => {
+    try {
+      const test = new TestMessageClass({} as any);
+    } catch (e) {
+      if (e instanceof ValidationError) {
+        assert.strictEqual(e.message, "{requiredProperty}");
+      } else {
+        throw e;
+      }
+    }
+  });
+
+  it("Return passed error message when call setMessages", () => {
+    TestMessageClass.setMessages({ requiredProperty: "TEST MESSAGE" });
+    try {
+      const test = new TestMessageClass({} as any);
+    } catch (e) {
+      if (e instanceof ValidationError) {
+        assert.strictEqual(e.message, "TEST MESSAGE");
+      } else {
+        throw e;
+      }
+    }
   });
 });

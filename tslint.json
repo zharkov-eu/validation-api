@@ -1,25 +1,21 @@
 {
-  "extends": "tslint:recommended",
+  "defaultSeverity": "error",
+  "extends": [
+    "tslint:recommended"
+  ],
+  "jsRules": {},
   "rules": {
-    "max-line-length": [
-      true,
-      120
-    ],
-    "no-arg": true,
-    "no-bitwise": true,
-    "new-parens": true,
-    "no-conditional-assignment": true,
-    "no-consecutive-blank-lines": [
-      true,
-      2
-    ],
+    "curly": false,
+    "semicolon": [true, "always", "ignore-bound-class-methods"],
+    "arrow-parens": false,
+    "interface-name": false,
     "no-string-literal": false,
+    "no-empty-interface": false,
+    "max-classes-per-file": false,
     "only-arrow-functions": false,
     "object-literal-shorthand": false,
-    "interface-over-type-literal": false,
-    "max-classes-per-file": [
-      true,
-      10
-    ]
-  }
+    "object-literal-sort-keys": false,
+    "interface-over-type-literal": false
+  },
+  "rulesDirectory": []
 }
