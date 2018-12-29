@@ -6,12 +6,7 @@
 import * as abstract from "./src/abstract";
 import * as api from "./src/decorator/api";
 import { Constraint } from "./src/decorator/api";
-import * as shared from "./src/decorator/shared";
 import * as error from "./src/error";
-
-interface IClassDecoratorOption extends shared.IClassDecoratorOption {
-  throwable?: boolean;
-}
 
 interface IPropDecoratorOption extends api.IPropDecoratorOption {
   message?: string;
@@ -44,13 +39,8 @@ export interface IValidationErrorCause extends error.IValidationErrorCause {
   value: any;
 }
 
-export declare class ValidationDomain {
-  // tslint:disable-next-line:variable-name
-  public __validationError: () => IValidationErrorCause[] | undefined;
-}
-
 // tslint:disable-next-line:max-line-length
-export declare const Validate: (option?: IClassDecoratorOption) => <T extends { new(...args: any[]): {} }>(target: T) => any;
+export declare const Validate: () => <T extends new(...args: any[]) => {}>(target: T) => any;
 export declare const NotEmpty: (option?: IPropDecoratorOption) => any;
 export declare const IsBoolean: (option?: IPropDecoratorOption) => any;
 export declare const IsNumber: (option?: INumberPropDecorationOption) => any;

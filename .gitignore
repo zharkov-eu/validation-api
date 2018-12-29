@@ -19,11 +19,8 @@ typings/
 # vs
 .vs
 
-# Generated JS
+# Generated js / js.map
 *.js
-/nbproject/private/
-
-# Generated js.map
 *.js.map
 
 # Index.js

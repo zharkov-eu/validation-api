@@ -18,43 +18,14 @@ class TestDomain {
 }
 
 try {
-    const success = new TestDomain({booleanValue: false})
+    const success = new TestDomain({booleanValue: false});
     const fail = new TestDomain({booleanValue: 1});
 } catch (error) {
-    if (error instanceof ValidationError) {
-        console.error(error.cause)
-    } else {
+    if (error instanceof ValidationError)
+        console.error(JSON.stringify(error));
+    else
         throw error
-    }
 }
-```
-
-### Class decorator
-
-```typescript
-@Validate(option = {throwable: true})
-```
-
-If throwable is true throws ValidationError with array of cause on construct,
-else if throwable is false client code can get error cause array by calling "__validationError" method of object
-
-Example
-
-```typescript
-import {Validate, ValidationDomain, IsBoolean} from "validation-api";
-
-@Validate({throwable: false})
-class TestDomain extends ValidationDomain {
-    @IsBoolean()
-    public booleanValue: boolean;
-    
-    constructor(entity: any) {
-      this.booleanValue = entity.booleanValue;
-    }
-}
-
-const fail = new TestDomain({booleanValue: 1});
-console.error(fail.__validationError())
 ```
 
 ### Property decorator
@@ -77,25 +48,38 @@ interface INumberPropDecorationOption extends IPropDecoratorOption {
 }
 ```
 
-##### Decorator variants
+> Decorator IsMemberOf gets array of possible values
 
-* NotEmpty
-* NotEmptyString
+```typescript
+export interface IMemberOfPropDecorationOption extends IPropDecoratorOption {
+  array: any[];
+}
+```
+
+##### Decorators
+
+* IsArray
 * IsBoolean
+* IsEmail
+* IsMemberOf
 * IsNumber
+* IsPhone
 * IsPositiveNumber
 * IsPositiveOrZeroNumber
-* IsEmail
-* IsPhone
-* MemberOf
+* IsPresented
+* IsString
+* NotEmpty
+* NotEmptyString
+
+### Abstract class
 
 ### Complex validation
 
 ```typescript
-import {Validate, ValidationError, IsBoolean, NotEmpty, IsPositiveNumber, NotEmptyString} from "validation-api";
+import {AbstractValidated, Validate, ValidationError, IsBoolean, NotEmpty, IsPositiveNumber, NotEmptyString} from "validation-api";
 
 @Validate()
-class Person {
+class Person extends AbstractValidated {
     @NotEmptyString({message: "Name is required for person", required: true})
     public name: string;
 
@@ -106,10 +90,7 @@ class Person {
     public ready: boolean;
     
     constructor(entity: any) {
-        if (!entity || typeof entity !== "object") {
-          // Prevent read property of undefined / not object argument
-          throw new Error("Argument of Person constructor not a object type")
-        }
+        super(entity);
         this.name = entity.name;
         if (entity.age) { this.age = entity.age; } // If because setting to undefined throws a Validation error is not presented
         if (entity.ready) { this.ready = entity.ready; } // See above
@@ -128,7 +109,7 @@ try {
 }
 ```
 
-This example provides output in stderrr:
+This example provides output in stderr:
 
 ```javascript
 [ { constraint: 'NotEmptyString',

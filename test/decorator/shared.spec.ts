@@ -8,23 +8,21 @@
 import "mocha";
 
 import * as assert from "assert";
-import { NotEmptyString } from "../../src/decorator/api";
-import { Validate } from "../../src/decorator/shared";
-import { ValidationError } from "../../src/error";
+import { AbstractValidated, NotEmptyString, Validate, ValidationError } from "../../index";
 
-@Validate({ throwable: true })
-class TestClass {
+@Validate()
+class TestClass extends AbstractValidated {
   @NotEmptyString({ required: true })
   public requiredProperty: string;
   @NotEmptyString()
   public optionalProperty?: string;
 
   constructor(entity: { requiredProperty: string, optionalProperty?: string }) {
+    super(entity);
     this.requiredProperty = entity.requiredProperty;
     if (entity.optionalProperty) {
       this.optionalProperty = entity.optionalProperty;
     }
-    Object.seal(this);
   }
 }
 

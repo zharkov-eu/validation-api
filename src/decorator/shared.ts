@@ -9,10 +9,6 @@ import { Constraint, IPropDecoratorOption } from "./api";
 export const requiredContainer = "__requiredContainer";
 export const errorContainer = "__errorContainer";
 
-export interface IClassDecoratorOption {
-  throwable?: boolean;
-}
-
 export interface IPropValidateResponse {
   error?: IValidationErrorCause;
   value?: any;
@@ -61,8 +57,8 @@ export function propDecorator(setter: (newValue: any, propertyKey: string | symb
   };
 }
 
-export function Validate(option: IClassDecoratorOption = { throwable: true }) {
-  return <T extends { new(...args: any[]): {} }>(target: T) => {
+export function Validate() {
+  return <T extends new(...args: any[]) => {}>(target: T) => {
     return class extends target {
       constructor(...args) {
         super(...args);
@@ -78,25 +74,25 @@ export function Validate(option: IClassDecoratorOption = { throwable: true }) {
                 message: propertyKey.toString() + " is required",
                 property: propertyKey.toString(),
                 value: undefined,
-              } as IValidationErrorCause];
+              }];
             }
           });
         }
 
         // property validation processing
         if (Reflect.has(this, errorContainer) && Reflect.get(this, errorContainer).length) {
-          if (option.throwable) {
-            throw new ValidationError(Reflect.get(this, errorContainer));
-          } else {
-            this["__validationError"] = () => Reflect.get(this, errorContainer);
-          }
+          throw new ValidationError(Reflect.get(this, errorContainer));
         }
+
+        // clear context
+        Reflect.deleteProperty(this, errorContainer);
+        Reflect.deleteProperty(this, requiredContainer);
       }
     };
   };
 }
 
-function ensureProperty(target: any, key: string | symbol, value: any) {
+function ensureProperty(target: any, key: string | symbol, value: any): void {
   if (!Reflect.has(target, key)) {
     Reflect.set(target, key, value);
   }

@@ -8,28 +8,29 @@
 import "mocha";
 
 import * as assert from "assert";
-import { AbstractValidated, NotEmptyString, Validate } from "../index";
-import { Constraint } from "../src/decorator/api";
+import { AbstractValidated, NotEmptyString, Validate, ValidationError } from "../index";
 
 describe("AbstractValidated test", () => {
-  @Validate({ throwable: false })
-  class A extends AbstractValidated {
+  @Validate()
+  class TestClass extends AbstractValidated {
     @NotEmptyString()
     private prop: string;
 
-    constructor(a: any) {
-      super(a);
-      this.prop = a;
+    constructor(object: { prop: string }) {
+      super(object);
+      this.prop = object.prop;
     }
   }
 
   it("Stop processing when passing a undefined value", () => {
-    // const a = new A(undefined);
-    // assert.strictEqual(a.__validationError()[0].constraint, Constraint.IsPresented);
+    assert.throws(() => {
+      const test = new TestClass(undefined as any);
+    }, ValidationError);
   });
 
   it("Correctly process NotEmptyString constraints", () => {
-    const a = new A({ a: "" });
-    assert.strictEqual(a.__validationError()[0].constraint, Constraint.NotEmptyString);
+    assert.doesNotThrow(() => {
+      const test = new TestClass({ prop: "property" });
+    });
   });
 });

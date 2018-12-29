@@ -13,15 +13,6 @@ var error = require("./src/error");
 exports.AbstractValidated = abstract.AbstractValidated;
 exports.ValidationError = error.ValidationError;
 
-function ValidationDomain() {
-  this.__validationError = function () {
-    return undefined;
-  };
-  return this;
-}
-
-exports.ValidationDomain = ValidationDomain;
-
 exports.Validate = shared.Validate;
 exports.NotEmpty = api.NotEmpty;
 exports.IsBoolean = api.IsBoolean;
