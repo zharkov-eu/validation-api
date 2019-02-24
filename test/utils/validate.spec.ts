@@ -5,10 +5,9 @@
 
 "use strict";
 
-import "mocha";
-
-import * as assert from "assert";
-import * as validator from "../src/validate";
+import { assert } from "chai";
+import { describe, it } from "mocha";
+import * as validator from "../../src/utils/validate";
 
 describe("validateNotEmpty test", () => {
   it("return true if argument isn't null / undefined / NaN type", () => {

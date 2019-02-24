@@ -1,19 +1,15 @@
 {
   "compilerOptions": {
+    "target": "es5",
+    "sourceMap": true,
+    "module": "commonjs",
+    "esModuleInterop": true,
     "lib": [
       "es2015",
-      "es2015.reflect",
-      "es2015.symbol"
+      "es2015.reflect"
     ],
-    "experimentalDecorators": true,
-    "module": "commonjs",
-    "declaration": true,
-    "sourceMap": true,
-    "target": "es5"
+    "experimentalDecorators": true
   },
-  "include": [
-    "**/*"
-  ],
   "exclude": [
     "node_modules"
   ]

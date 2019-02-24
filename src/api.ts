@@ -5,22 +5,9 @@
 
 "use strict";
 
-import * as validator from "../validate";
-import { IPropValidateResponse, propDecorator } from "./shared";
-
-export interface IPropDecoratorOption {
-  message?: string;
-  required?: boolean;
-}
-
-export interface INumberPropDecorationOption extends IPropDecoratorOption {
-  min?: number;
-  max?: number;
-}
-
-export interface IMemberOfPropDecorationOption extends IPropDecoratorOption {
-  array: any[];
-}
+import { IMemberOfPropDecorationOption, INumberPropDecorationOption, IPropDecoratorOption } from "../index";
+import { propDecorator } from "./utils/decorator";
+import * as validator from "./utils/validate";
 
 export enum Constraint {
   IsArray = "IsArray",
@@ -35,23 +22,17 @@ export enum Constraint {
   IsString = "IsString",
   NotEmpty = "NotEmpty",
   NotEmptyString = "NotEmptyString",
-  Required = "Required",
 }
 
-function setterShortcut(validate: (candidate: any) => boolean, constraint: Constraint, option: IPropDecoratorOption) {
-  return propDecorator((newValue: any, propertyKey: string | symbol): IPropValidateResponse => {
-    if (!validate(newValue)) {
-      return {
-        error: {
-          constraint: constraint,
-          message: option.message || propertyKey.toString() + " is invalid by " + constraint + " constraint",
-          property: propertyKey.toString(),
-          value: newValue,
-        },
-      };
-    }
-    return { value: newValue };
-  }, option);
+const defaultOption: IPropDecoratorOption = { message: "", group: [] };
+
+function setterShortcut(validate: (value: any) => boolean, constraint: Constraint, option: IPropDecoratorOption) {
+  return propDecorator((value, propertyKey) => {
+    if (!validate(value)) return {
+      value, constraint, property: propertyKey,
+      message: option.message || "{" + constraint + "}",
+    };
+  }, option.group);
 }
 
 /**
@@ -61,7 +42,7 @@ function setterShortcut(validate: (candidate: any) => boolean, constraint: Const
  * @returns {(target: any, propertyKey: (string | symbol)) => void}
  * @constructor
  */
-export function NotEmpty(option: IPropDecoratorOption = { message: "", required: false }) {
+export function NotEmpty(option: IPropDecoratorOption = defaultOption) {
   return setterShortcut(validator.validateNotEmpty, Constraint.NotEmpty, option);
 }
 
@@ -72,7 +53,7 @@ export function NotEmpty(option: IPropDecoratorOption = { message: "", required:
  * @returns {(target: any, propertyKey: (string | symbol)) => void}
  * @constructor
  */
-export function IsBoolean(option: IPropDecoratorOption = { message: "", required: false }) {
+export function IsBoolean(option: IPropDecoratorOption = defaultOption) {
   return setterShortcut(validator.validateBoolean, Constraint.IsBoolean, option);
 }
 
@@ -83,12 +64,11 @@ export function IsBoolean(option: IPropDecoratorOption = { message: "", required
  * @returns {(target: any, propertyKey: (string | symbol)) => void}
  * @constructor
  */
-export function IsNumber(option: INumberPropDecorationOption =
-                             { message: "", required: false, min: undefined, max: undefined }) {
+export function IsNumber(option: INumberPropDecorationOption = defaultOption) {
   const validate = (candidate: any): boolean => (
-      validator.validateNumber(candidate)
-      && (option.min ? candidate >= option.min : true)
-      && (option.max ? candidate <= option.max : true)
+    validator.validateNumber(candidate)
+    && (option.min ? candidate >= option.min : true)
+    && (option.max ? candidate <= option.max : true)
   );
   return setterShortcut(validate, Constraint.IsNumber, option);
 }
@@ -100,12 +80,11 @@ export function IsNumber(option: INumberPropDecorationOption =
  * @returns {(target: any, propertyKey: (string | symbol)) => void}
  * @constructor
  */
-export function IsPositiveNumber(option: INumberPropDecorationOption =
-                                     { message: "", required: false, min: undefined, max: undefined }) {
+export function IsPositiveNumber(option: INumberPropDecorationOption = defaultOption) {
   const validate = (candidate: any): boolean =>
-      validator.validatePositiveNumber(candidate)
-      && (option.min ? candidate >= option.min : true)
-      && (option.max ? candidate <= option.max : true);
+    validator.validatePositiveNumber(candidate)
+    && (option.min ? candidate >= option.min : true)
+    && (option.max ? candidate <= option.max : true);
   return setterShortcut(validate, Constraint.IsPositiveNumber, option);
 }
 
@@ -116,12 +95,11 @@ export function IsPositiveNumber(option: INumberPropDecorationOption =
  * @returns {(target: any, propertyKey: (string | symbol)) => void}
  * @constructor
  */
-export function IsPositiveOrZeroNumber(option: INumberPropDecorationOption =
-                                           { message: "", required: false, min: undefined, max: undefined }) {
+export function IsPositiveOrZeroNumber(option: INumberPropDecorationOption = defaultOption) {
   const validate = (candidate: any): boolean => (
-      validator.validatePositiveOrZeroNumber(candidate)
-      && (option.min ? candidate >= option.min : true)
-      && (option.max ? candidate <= option.max : true)
+    validator.validatePositiveOrZeroNumber(candidate)
+    && (option.min ? candidate >= option.min : true)
+    && (option.max ? candidate <= option.max : true)
   );
   return setterShortcut(validate, Constraint.IsPositiveOrZeroNumber, option);
 }
@@ -132,7 +110,7 @@ export function IsPositiveOrZeroNumber(option: INumberPropDecorationOption =
  * @returns {(target: any, propertyKey: (string | symbol)) => void}
  * @constructor
  */
-export function IsString(option: IPropDecoratorOption = { message: "", required: false }) {
+export function IsString(option: IPropDecoratorOption = defaultOption) {
   return setterShortcut(validator.validateString, Constraint.IsString, option);
 }
 
@@ -142,7 +120,7 @@ export function IsString(option: IPropDecoratorOption = { message: "", required:
  * @returns {(target: any, propertyKey: (string | symbol)) => void}
  * @constructor
  */
-export function NotEmptyString(option: IPropDecoratorOption = { message: "", required: false }) {
+export function NotEmptyString(option: IPropDecoratorOption = defaultOption) {
   return setterShortcut(validator.validateNotEmptyString, Constraint.NotEmptyString, option);
 }
 
@@ -152,7 +130,7 @@ export function NotEmptyString(option: IPropDecoratorOption = { message: "", req
  * @returns {(target: any, propertyKey: (string | symbol)) => void}
  * @constructor
  */
-export function IsArray(option: IPropDecoratorOption = { message: "", required: false }) {
+export function IsArray(option: IPropDecoratorOption = defaultOption) {
   return setterShortcut(validator.validateArray, Constraint.IsArray, option);
 }
 
@@ -162,7 +140,7 @@ export function IsArray(option: IPropDecoratorOption = { message: "", required: 
  * @returns {(target: any, propertyKey: (string | symbol)) => void}
  * @constructor
  */
-export function IsEmail(option: IPropDecoratorOption = { message: "", required: false }) {
+export function IsEmail(option: IPropDecoratorOption = defaultOption) {
   return setterShortcut(validator.validateEmail, Constraint.IsEmail, option);
 }
 
@@ -172,7 +150,7 @@ export function IsEmail(option: IPropDecoratorOption = { message: "", required: 
  * @returns {(target: any, propertyKey: (string | symbol)) => void}
  * @constructor
  */
-export function IsPhone(option: IPropDecoratorOption = { message: "", required: false }) {
+export function IsPhone(option: IPropDecoratorOption = defaultOption) {
   return setterShortcut(validator.validatePhone, Constraint.IsPhone, option);
 }
 
@@ -182,7 +160,7 @@ export function IsPhone(option: IPropDecoratorOption = { message: "", required: 
  * @returns {(target: any, propertyKey: (string | symbol)) => void}
  * @constructor
  */
-export function IsMemberOf(option: IMemberOfPropDecorationOption = { message: "", array: [], required: false }) {
+export function IsMemberOf(option: IMemberOfPropDecorationOption = { ...defaultOption, array: [] }) {
   const validate = (candidate: any) => validator.validateInclusive(candidate, option.array);
   return setterShortcut(validate, Constraint.IsMemberOf, option);
 }

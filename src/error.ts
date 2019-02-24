@@ -5,23 +5,16 @@
 
 "use strict";
 
-import { Constraint } from "./decorator/api";
+import { IValidationErrorCause, ValidationError as Reference } from "../index";
 
-export interface IValidationErrorCause {
-  constraint: Constraint;
-  message: string;
-  property: string;
-  value: any;
-}
-
-export class ValidationError extends Error {
+export class ValidationError extends Error implements Reference {
   public cause: IValidationErrorCause[];
-  public message: string;
 
   constructor(cause: IValidationErrorCause[]) {
     super();
     this.cause = cause;
-    this.message = cause.length ? cause[0].message : "Validation error";
+    this.name = "ValidationError";
+    this.message = cause.length ? cause[0].message : "ValidationError";
     Object.setPrototypeOf(this, ValidationError.prototype);
   }
 }

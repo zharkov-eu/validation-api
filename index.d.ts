@@ -3,43 +3,49 @@
  * @author Evgeni Zharkov <zharkov.ev.u@yandex.ru>
  */
 
-import * as abstract from "./src/abstract";
-import * as api from "./src/decorator/api";
-import { Constraint } from "./src/decorator/api";
-import * as error from "./src/error";
+/*----- Property decorators -----*/
 
-interface IPropDecoratorOption extends api.IPropDecoratorOption {
+export interface IPropDecoratorOption {
+  group?: string[];
   message?: string;
-  required?: boolean;
 }
 
-interface INumberPropDecorationOption extends IPropDecoratorOption, api.INumberPropDecorationOption {
+export interface INumberPropDecorationOption extends IPropDecoratorOption {
   min?: number;
   max?: number;
 }
 
-interface IMemberOfPropDecorationOption extends IPropDecoratorOption, api.IMemberOfPropDecorationOption {
+export interface IMemberOfPropDecorationOption extends IPropDecoratorOption {
   array: any[];
 }
 
-export abstract class AbstractValidated extends abstract.AbstractValidated {
+/*----- Abstract class -----*/
+
+export type TMessages = { [key: string]: string };
+
+export abstract class AbstractValidated {
+  public static setMessages(messages: TMessages);
+
   protected constructor(entity: any);
 }
 
-export class ValidationError extends error.ValidationError {
+/*----- Validation error -----*/
+
+export interface IValidationErrorCause {
+  constraint: string;
+  message: string;
+  property?: string;
+  value?: any;
+}
+
+export class ValidationError extends Error {
   public cause: IValidationErrorCause[];
 
   constructor(cause: IValidationErrorCause[]);
 }
 
-export interface IValidationErrorCause extends error.IValidationErrorCause {
-  constraint: Constraint;
-  message: string;
-  property: string;
-  value: any;
-}
+/*----- API -----*/
 
-// tslint:disable-next-line:max-line-length
 export declare const Validate: () => <T extends new(...args: any[]) => {}>(target: T) => any;
 export declare const NotEmpty: (option?: IPropDecoratorOption) => any;
 export declare const IsBoolean: (option?: IPropDecoratorOption) => any;

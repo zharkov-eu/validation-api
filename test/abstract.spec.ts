@@ -5,10 +5,9 @@
 
 "use strict";
 
-import "mocha";
-
-import * as assert from "assert";
-import { AbstractValidated, NotEmptyString, Validate, ValidationError } from "../index";
+import { assert } from "chai";
+import { describe, it } from "mocha";
+import { AbstractValidated, NotEmptyString, Validate } from "../index";
 
 describe("AbstractValidated test", () => {
   @Validate()
@@ -25,7 +24,7 @@ describe("AbstractValidated test", () => {
   it("Stop processing when passing a undefined value", () => {
     assert.throws(() => {
       const test = new TestClass(undefined as any);
-    }, ValidationError);
+    });
   });
 
   it("Correctly process NotEmptyString constraints", () => {
