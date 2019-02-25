@@ -27,7 +27,7 @@ export enum Constraint {
 
 const defaultOption: IPropDecoratorOption = { message: "", group: [] };
 
-function setterShortcut(validate: (value: any) => boolean, constraint: Constraint, option: IPropDecoratorOption) {
+function setterShortcut(validate: (value: any) => boolean, constraint: string, option: IPropDecoratorOption) {
   return propDecorator((value, propertyKey) => {
     if (value == null && constraint !== Constraint.Required)
       return;
@@ -36,6 +36,16 @@ function setterShortcut(validate: (value: any) => boolean, constraint: Constrain
       message: option.message || "{" + constraint + "}",
     };
   }, option.group);
+}
+
+/**
+ * Custom validation annotation
+ * @param validate {(value: any) => boolean}
+ * @param constraint {string}
+ * @constructor
+ */
+export function Annotate(validate: (value: any) => boolean, constraint: string) {
+  return (option: IPropDecoratorOption) => setterShortcut(validate, constraint, option);
 }
 
 /**

@@ -52,16 +52,20 @@ export class ValidationError extends Error {
 
 /*----- API -----*/
 
+export type PropAnnotation = (target: object, propertyKey: string) => void;
+
 export declare const Validate: (option?: IValidateOption) => <T extends new(...args: any[]) => {}>(target: T) => any;
-export declare const NotEmpty: (option?: IPropDecoratorOption) => any;
-export declare const IsBoolean: (option?: IPropDecoratorOption) => any;
-export declare const IsNumber: (option?: INumberPropDecorationOption) => any;
-export declare const IsPositiveNumber: (option?: INumberPropDecorationOption) => any;
-export declare const IsPositiveOrZeroNumber: (option?: INumberPropDecorationOption) => any;
-export declare const IsString: (option?: IPropDecoratorOption) => any;
-export declare const NotEmptyString: (option?: IPropDecoratorOption) => any;
-export declare const IsArray: (option?: IPropDecoratorOption) => any;
-export declare const IsEmail: (option?: IPropDecoratorOption) => any;
-export declare const IsPhone: (option?: IPropDecoratorOption) => any;
-export declare const IsMemberOf: (option?: IMemberOfPropDecorationOption) => any;
-export declare const Required: (option?: IPropDecoratorOption) => any;
+export declare const NotEmpty: (option?: IPropDecoratorOption) => PropAnnotation;
+export declare const IsBoolean: (option?: IPropDecoratorOption) => PropAnnotation;
+export declare const IsNumber: (option?: INumberPropDecorationOption) => PropAnnotation;
+export declare const IsPositiveNumber: (option?: INumberPropDecorationOption) => PropAnnotation;
+export declare const IsPositiveOrZeroNumber: (option?: INumberPropDecorationOption) => PropAnnotation;
+export declare const IsString: (option?: IPropDecoratorOption) => PropAnnotation;
+export declare const NotEmptyString: (option?: IPropDecoratorOption) => PropAnnotation;
+export declare const IsArray: (option?: IPropDecoratorOption) => PropAnnotation;
+export declare const IsEmail: (option?: IPropDecoratorOption) => PropAnnotation;
+export declare const IsPhone: (option?: IPropDecoratorOption) => PropAnnotation;
+export declare const IsMemberOf: (option?: IMemberOfPropDecorationOption) => PropAnnotation;
+export declare const Required: (option?: IPropDecoratorOption) => PropAnnotation;
+export declare const Annotate: (validate: (value: any) => boolean, constraint: string) =>
+  (option?: IPropDecoratorOption) => PropAnnotation;

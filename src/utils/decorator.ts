@@ -3,7 +3,7 @@
  * @author Evgeni Zharkov <zharkov.ev.u@yandex.ru>
  */
 
-import { IValidateOption, IValidationErrorCause } from "../../index";
+import { IValidateOption, IValidationErrorCause, PropAnnotation } from "../../index";
 import { ValidationError } from "../error";
 
 const DEFAULT_GROUP = "__DEFAULT";
@@ -14,7 +14,7 @@ const ERROR_KEY = "__ERROR";
 type TValidator = (value: any, propertyKey: string) => IValidationErrorCause | undefined;
 type TValidateProperty = { propertyKey: string, groups: { [group: string]: TValidator[] } };
 
-export function propDecorator(validator: TValidator, groups: string[] = []) {
+export function propDecorator(validator: TValidator, groups: string[] = []): PropAnnotation {
   return (target: object, propertyKey: string) => {
     const properties: TValidateProperty[] = Reflect.get(target, VALIDATE_KEY) || [];
     const property: TValidateProperty =
@@ -55,7 +55,7 @@ export function propDecorator(validator: TValidator, groups: string[] = []) {
 
 const defaultOption: IValidateOption = { group: DEFAULT_GROUP };
 
-export function Validate(option: IValidateOption = defaultOption): any {
+export function Validate(option: IValidateOption = defaultOption) {
   return <T extends new(...args: any[]) => {}>(target: T) => {
     Reflect.defineProperty(target, GROUP_KEY, { enumerable: false, value: option.group });
 
