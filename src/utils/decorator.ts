@@ -3,7 +3,7 @@
  * @author Evgeni Zharkov <zharkov.ev.u@yandex.ru>
  */
 
-import { IValidationErrorCause } from "../../index";
+import { IValidateOption, IValidationErrorCause } from "../../index";
 import { ValidationError } from "../error";
 
 const DEFAULT_GROUP = "__DEFAULT";
@@ -53,9 +53,11 @@ export function propDecorator(validator: TValidator, groups: string[] = []) {
   };
 }
 
-export function Validate(group: string = DEFAULT_GROUP): any {
+const defaultOption: IValidateOption = { group: DEFAULT_GROUP };
+
+export function Validate(option: IValidateOption = defaultOption): any {
   return <T extends new(...args: any[]) => {}>(target: T) => {
-    Reflect.defineProperty(target, GROUP_KEY, { enumerable: false, value: group });
+    Reflect.defineProperty(target, GROUP_KEY, { enumerable: false, value: option.group });
 
     return class V extends target {
       constructor(...args) {

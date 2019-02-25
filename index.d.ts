@@ -19,6 +19,12 @@ export interface IMemberOfPropDecorationOption extends IPropDecoratorOption {
   array: any[];
 }
 
+/*----- Class decorators -----*/
+
+export interface IValidateOption {
+  group?: string;
+}
+
 /*----- Abstract class -----*/
 
 export type TMessages = { [key: string]: string };
@@ -46,7 +52,7 @@ export class ValidationError extends Error {
 
 /*----- API -----*/
 
-export declare const Validate: () => <T extends new(...args: any[]) => {}>(target: T) => any;
+export declare const Validate: (option?: IValidateOption) => <T extends new(...args: any[]) => {}>(target: T) => any;
 export declare const NotEmpty: (option?: IPropDecoratorOption) => any;
 export declare const IsBoolean: (option?: IPropDecoratorOption) => any;
 export declare const IsNumber: (option?: INumberPropDecorationOption) => any;

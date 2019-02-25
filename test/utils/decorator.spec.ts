@@ -20,9 +20,8 @@ class TestClass extends AbstractValidated {
   constructor(entity: { requiredProperty: string, optionalProperty?: string }) {
     super(entity);
     this.requiredProperty = entity.requiredProperty;
-    if (entity.optionalProperty) {
+    if (entity.optionalProperty)
       this.optionalProperty = entity.optionalProperty;
-    }
   }
 }
 
@@ -79,5 +78,38 @@ describe("Validate decorator message test", () => {
       else
         throw e;
     }
+  });
+});
+
+describe("Validate decorator group test", () => {
+
+  class GroupClass extends AbstractValidated {
+    @NotEmptyString({ group: ["create"] })
+    public requiredProperty: string;
+    @NotEmptyString()
+    public optionalProperty?: string;
+
+    constructor(entity: any) {
+      super(entity);
+      this.requiredProperty = entity.requiredProperty;
+      if (entity.optionalProperty)
+        this.optionalProperty = entity.optionalProperty;
+    }
+  }
+
+  it("Throws error when validation group match", () => {
+    @Validate({ group: "create" })
+    class CreateGroupClass extends GroupClass {
+    }
+
+    assert.throws(() => new CreateGroupClass({ optionalProperty: "string" }), ValidationError);
+  });
+
+  it("Does not throw error when validation group not match", () => {
+    @Validate({ group: "update" })
+    class UpdateGroupClass extends GroupClass {
+    }
+
+    assert.doesNotThrow(() => new UpdateGroupClass({ optionalProperty: "string" }));
   });
 });
