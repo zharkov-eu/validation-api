@@ -7,11 +7,12 @@
 
 import { assert } from "chai";
 import { describe, it } from "mocha";
-import { NotEmptyString, Validate, ValidationError } from "../..";
+import { NotEmptyString, Required, Validate, ValidationError } from "../..";
 import { AbstractValidated } from "../../src/abstract";
 
 @Validate()
 class TestClass extends AbstractValidated {
+  @Required()
   @NotEmptyString()
   public requiredProperty: string;
   @NotEmptyString()
@@ -84,7 +85,8 @@ describe("Validate decorator message test", () => {
 describe("Validate decorator group test", () => {
 
   class GroupClass extends AbstractValidated {
-    @NotEmptyString({ group: ["create"] })
+    @Required({ group: ["create"] })
+    @NotEmptyString()
     public requiredProperty: string;
     @NotEmptyString()
     public optionalProperty?: string;

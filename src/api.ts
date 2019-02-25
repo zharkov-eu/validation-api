@@ -16,6 +16,7 @@ export enum Constraint {
   IsMemberOf = "IsMemberOf",
   IsNumber = "IsNumber",
   IsPhone = "IsPhone",
+  IsPresented = "IsPresented",
   IsPositiveNumber = "IsPositiveNumber",
   IsPositiveOrZeroNumber = "IsPositiveOrZeroNumber",
   IsString = "IsString",
@@ -175,6 +176,6 @@ export function IsMemberOf(option: IMemberOfPropDecorationOption = { ...defaultO
  * @constructor
  */
 export function Required(option: IPropDecoratorOption = defaultOption) {
-  const validate = (candidate: any) => candidate == null;
+  const validate = (candidate: any) => candidate != null;
   return setterShortcut(validate, Constraint.Required, option);
 }
