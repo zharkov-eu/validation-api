@@ -52,10 +52,9 @@ export function validatePositiveOrZeroNumber(candidate: any): boolean {
  * @returns {boolean}
  */
 export function validateNotEmpty(candidate: any): boolean {
-  return candidate !== undefined
-      && candidate !== null
-      && (typeof candidate === "number" ? !isNaN(candidate) : true)
-      && (Array.isArray(candidate) ? candidate.length > 0 : true);
+  return candidate !== undefined && candidate !== null
+    && (typeof candidate === "number" ? !isNaN(candidate) : true)
+    && (Array.isArray(candidate) ? candidate.length > 0 : true);
 }
 
 /**
@@ -107,7 +106,7 @@ export function validatePhone(candidate: any): boolean {
 }
 
 /**
- * Inclusive relation validation (indexof)
+ * Inclusive relation validation (indexOf)
  * Return true if candidate
  * @param candidate
  * @param {Array} inclusive

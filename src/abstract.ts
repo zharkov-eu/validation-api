@@ -5,24 +5,20 @@
 
 "use strict";
 
-import { Constraint } from "./decorator/api";
+import { AbstractValidated as Reference, TMessages } from "../index";
+import { Constraint } from "./api";
 import { ValidationError } from "./error";
 
-export abstract class AbstractValidated {
-  public static messages: { [key: string]: string };
-
-  public static setMessages(messages: { [key: string]: string }) {
+export abstract class AbstractValidated implements Reference {
+  public static setMessages(messages: TMessages) {
     this.messages = messages;
   }
 
+  private static messages: TMessages;
+
   protected constructor(entity: any) {
-    if (typeof entity !== "object") {
-      throw new ValidationError([{
-        constraint: Constraint.IsPresented,
-        message: "No entity presented",
-        property: "",
-        value: "",
-      }]);
+    if (typeof entity !== "object" || !entity) {
+      throw new ValidationError([{ constraint: Constraint.IsPresented, message: "{IsPresented}" }]);
     }
   }
 }

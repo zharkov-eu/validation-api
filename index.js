@@ -5,23 +5,23 @@
 
 "use strict";
 
-var abstract = require("./src/abstract");
-var api = require("./src/decorator/api");
-var shared = require("./src/decorator/shared");
-var error = require("./src/error");
+var AbstractValidated = require("./src/abstract").AbstractValidated;
+var ValidationError = require("./src/error").ValidationError;
+var Validate = require("./src/utils/decorator").Validate;
+var Api = require("./src/api");
 
-exports.AbstractValidated = abstract.AbstractValidated;
-exports.ValidationError = error.ValidationError;
+exports.AbstractValidated = AbstractValidated;
+exports.ValidationError = ValidationError;
+exports.Validate = Validate;
 
-exports.Validate = shared.Validate;
-exports.NotEmpty = api.NotEmpty;
-exports.IsBoolean = api.IsBoolean;
-exports.IsNumber = api.IsNumber;
-exports.IsPositiveNumber = api.IsPositiveNumber;
-exports.IsPositiveOrZeroNumber = api.IsPositiveOrZeroNumber;
-exports.IsString = api.IsString;
-exports.NotEmptyString = api.NotEmptyString;
-exports.IsArray = api.IsArray;
-exports.IsEmail = api.IsEmail;
-exports.IsPhone = api.IsPhone;
-exports.IsMemberOf = api.IsMemberOf;
+exports.NotEmpty = Api.NotEmpty;
+exports.IsBoolean = Api.IsBoolean;
+exports.IsNumber = Api.IsNumber;
+exports.IsPositiveNumber = Api.IsPositiveNumber;
+exports.IsPositiveOrZeroNumber = Api.IsPositiveOrZeroNumber;
+exports.IsString = Api.IsString;
+exports.NotEmptyString = Api.NotEmptyString;
+exports.IsArray = Api.IsArray;
+exports.IsEmail = Api.IsEmail;
+exports.IsPhone = Api.IsPhone;
+exports.IsMemberOf = Api.IsMemberOf;

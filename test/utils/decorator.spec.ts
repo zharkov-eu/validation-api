@@ -5,15 +5,14 @@
 
 "use strict";
 
-import "mocha";
-
-import * as assert from "assert";
-import { NotEmptyString, Validate, ValidationError } from "../../index";
+import { assert } from "chai";
+import { describe, it } from "mocha";
+import { NotEmptyString, Validate, ValidationError } from "../..";
 import { AbstractValidated } from "../../src/abstract";
 
 @Validate()
 class TestClass extends AbstractValidated {
-  @NotEmptyString({ required: true })
+  @NotEmptyString()
   public requiredProperty: string;
   @NotEmptyString()
   public optionalProperty?: string;
@@ -21,9 +20,8 @@ class TestClass extends AbstractValidated {
   constructor(entity: { requiredProperty: string, optionalProperty?: string }) {
     super(entity);
     this.requiredProperty = entity.requiredProperty;
-    if (entity.optionalProperty) {
+    if (entity.optionalProperty)
       this.optionalProperty = entity.optionalProperty;
-    }
   }
 }
 
@@ -49,7 +47,7 @@ describe("Validate decorator test", () => {
 
 @Validate()
 class TestMessageClass extends AbstractValidated {
-  @NotEmptyString({ required: true, message: "{requiredProperty}" })
+  @NotEmptyString({ message: "{requiredProperty}" })
   public requiredProperty: string;
 
   constructor(entity: { requiredProperty: string, optionalProperty?: string }) {
@@ -63,11 +61,10 @@ describe("Validate decorator message test", () => {
     try {
       const test = new TestMessageClass({} as any);
     } catch (e) {
-      if (e instanceof ValidationError) {
+      if (e instanceof ValidationError)
         assert.strictEqual(e.message, "{requiredProperty}");
-      } else {
+      else
         throw e;
-      }
     }
   });
 
@@ -76,11 +73,43 @@ describe("Validate decorator message test", () => {
     try {
       const test = new TestMessageClass({} as any);
     } catch (e) {
-      if (e instanceof ValidationError) {
+      if (e instanceof ValidationError)
         assert.strictEqual(e.message, "TEST MESSAGE");
-      } else {
+      else
         throw e;
-      }
     }
+  });
+});
+
+describe("Validate decorator group test", () => {
+
+  class GroupClass extends AbstractValidated {
+    @NotEmptyString({ group: ["create"] })
+    public requiredProperty: string;
+    @NotEmptyString()
+    public optionalProperty?: string;
+
+    constructor(entity: any) {
+      super(entity);
+      this.requiredProperty = entity.requiredProperty;
+      if (entity.optionalProperty)
+        this.optionalProperty = entity.optionalProperty;
+    }
+  }
+
+  it("Throws error when validation group match", () => {
+    @Validate({ group: "create" })
+    class CreateGroupClass extends GroupClass {
+    }
+
+    assert.throws(() => new CreateGroupClass({ optionalProperty: "string" }), ValidationError);
+  });
+
+  it("Does not throw error when validation group not match", () => {
+    @Validate({ group: "update" })
+    class UpdateGroupClass extends GroupClass {
+    }
+
+    assert.doesNotThrow(() => new UpdateGroupClass({ optionalProperty: "string" }));
   });
 });

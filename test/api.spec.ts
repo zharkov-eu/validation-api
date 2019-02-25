@@ -5,10 +5,9 @@
 
 "use strict";
 
-import "mocha";
-
-import * as assert from "assert";
-import { AbstractValidated, IsBoolean, IsMemberOf, IsPositiveNumber, Validate, ValidationError } from "../../index";
+import { assert } from "chai";
+import { describe, it } from "mocha";
+import { AbstractValidated, IsBoolean, IsMemberOf, IsPositiveNumber, Validate, ValidationError } from "..";
 
 describe("IsBoolean test", () => {
   @Validate()
