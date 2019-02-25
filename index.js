@@ -25,3 +25,4 @@ exports.IsArray = Api.IsArray;
 exports.IsEmail = Api.IsEmail;
 exports.IsPhone = Api.IsPhone;
 exports.IsMemberOf = Api.IsMemberOf;
+exports.Required = Api.Required;

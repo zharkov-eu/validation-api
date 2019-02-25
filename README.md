@@ -34,8 +34,8 @@ All decorator methods can take argument relevant to interface IPropDecoratorOpti
 
 ```typescript
 interface IPropDecoratorOption {
+  group?: string[];
   message?: string;
-  required?: boolean;
 }
 ```
 
@@ -58,6 +58,7 @@ export interface IMemberOfPropDecorationOption extends IPropDecoratorOption {
 
 ##### Decorators
 
+* Required
 * IsArray
 * IsBoolean
 * IsEmail
@@ -66,7 +67,6 @@ export interface IMemberOfPropDecorationOption extends IPropDecoratorOption {
 * IsPhone
 * IsPositiveNumber
 * IsPositiveOrZeroNumber
-* IsPresented
 * IsString
 * NotEmpty
 * NotEmptyString
@@ -76,11 +76,12 @@ export interface IMemberOfPropDecorationOption extends IPropDecoratorOption {
 ### Complex validation
 
 ```typescript
-import {AbstractValidated, Validate, ValidationError, IsBoolean, NotEmpty, IsPositiveNumber, NotEmptyString} from "validation-api";
+import {AbstractValidated, Validate, ValidationError, Required, IsBoolean, NotEmpty, IsPositiveNumber, NotEmptyString} from "validation-api";
 
 @Validate()
 class Person extends AbstractValidated {
-    @NotEmptyString({message: "Name is required for person", required: true})
+    @Required()
+    @NotEmptyString({message: "Name is required for person"})
     public name: string;
 
     @IsPositiveNumber({message: "Person age must be a positive number"})

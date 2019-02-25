@@ -64,3 +64,4 @@ export declare const IsArray: (option?: IPropDecoratorOption) => any;
 export declare const IsEmail: (option?: IPropDecoratorOption) => any;
 export declare const IsPhone: (option?: IPropDecoratorOption) => any;
 export declare const IsMemberOf: (option?: IMemberOfPropDecorationOption) => any;
+export declare const Required: (option?: IPropDecoratorOption) => any;

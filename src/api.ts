@@ -18,16 +18,18 @@ export enum Constraint {
   IsPhone = "IsPhone",
   IsPositiveNumber = "IsPositiveNumber",
   IsPositiveOrZeroNumber = "IsPositiveOrZeroNumber",
-  IsPresented = "IsPresented",
   IsString = "IsString",
   NotEmpty = "NotEmpty",
   NotEmptyString = "NotEmptyString",
+  Required = "Required",
 }
 
 const defaultOption: IPropDecoratorOption = { message: "", group: [] };
 
 function setterShortcut(validate: (value: any) => boolean, constraint: Constraint, option: IPropDecoratorOption) {
   return propDecorator((value, propertyKey) => {
+    if (value == null && constraint !== Constraint.Required)
+      return;
     if (!validate(value)) return {
       value, constraint, property: propertyKey,
       message: option.message || "{" + constraint + "}",
@@ -163,4 +165,16 @@ export function IsPhone(option: IPropDecoratorOption = defaultOption) {
 export function IsMemberOf(option: IMemberOfPropDecorationOption = { ...defaultOption, array: [] }) {
   const validate = (candidate: any) => validator.validateInclusive(candidate, option.array);
   return setterShortcut(validate, Constraint.IsMemberOf, option);
+}
+
+/**
+ * Validate required
+ * False if candidate is undefined or null
+ * @param {IPropDecoratorOption} option
+ * @returns {(target: any, propertyKey: (string | symbol)) => void}
+ * @constructor
+ */
+export function Required(option: IPropDecoratorOption = defaultOption) {
+  const validate = (candidate: any) => candidate == null;
+  return setterShortcut(validate, Constraint.Required, option);
 }
