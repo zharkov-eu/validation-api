@@ -60,7 +60,7 @@ export function Validate(option: IValidateOption = defaultOption) {
     Reflect.defineProperty(target, GROUP_KEY, { enumerable: false, value: option.group });
 
     return class V extends target {
-      constructor(...args) {
+      constructor(...args: any[]) {
         super(...args);
         Reflect.defineProperty(this, ERROR_KEY, { enumerable: false, writable: false });
 

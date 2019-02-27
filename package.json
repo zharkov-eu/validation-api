@@ -1,6 +1,6 @@
 {
   "name": "validation-api.esnext",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "TypeScript Validation Api",
   "main": "index.js",
   "scripts": {

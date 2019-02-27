@@ -30,7 +30,7 @@ export interface IValidateOption {
 export type TMessages = { [key: string]: string };
 
 export abstract class AbstractValidated {
-  public static setMessages(messages: TMessages);
+  public static setMessages(messages: TMessages): void;
 
   protected constructor(entity: any);
 }
