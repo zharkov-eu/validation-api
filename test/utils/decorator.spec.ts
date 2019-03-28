@@ -21,28 +21,33 @@ class TestClass extends AbstractValidated {
   constructor(entity: { requiredProperty: string, optionalProperty?: string }) {
     super(entity);
     this.requiredProperty = entity.requiredProperty;
-    if (entity.optionalProperty)
-      this.optionalProperty = entity.optionalProperty;
+    this.optionalProperty = entity.optionalProperty;
   }
 }
 
 describe("Validate decorator test", () => {
   it("Successful construct class with all arguments", () => {
-    assert.doesNotThrow(() => {
-      const test = new TestClass({ requiredProperty: "some", optionalProperty: "next" });
-    });
+    assert.doesNotThrow(() => new TestClass({ requiredProperty: "some", optionalProperty: "next" }));
   });
 
   it("Successful construct class without optional property arguments", () => {
-    assert.doesNotThrow(() => {
-      const test = new TestClass({ requiredProperty: "some" });
-    });
+    assert.doesNotThrow(() => new TestClass({ requiredProperty: "some" }));
   });
 
   it("Throw error when required property not presented", () => {
-    assert.throws(() => {
-      const test = new TestClass({ optionalProperty: "text" } as any);
-    }, ValidationError);
+    assert.throws(() => new TestClass({ optionalProperty: "text" } as any), ValidationError);
+  });
+
+  it("Has only enumerable properties", () => {
+    let test: TestClass;
+    assert.doesNotThrow(() => test = new TestClass({ requiredProperty: "some", optionalProperty: "next" }));
+    assert.strictEqual(test.requiredProperty, "some");
+    assert.strictEqual(test.optionalProperty, "next");
+
+    const keys = Object.keys(test);
+    assert.strictEqual(keys.length, 2);
+    assert.isTrue(keys.indexOf("requiredProperty") !== -1);
+    assert.isTrue(keys.indexOf("optionalProperty") !== -1);
   });
 });
 
@@ -94,8 +99,7 @@ describe("Validate decorator group test", () => {
     constructor(entity: any) {
       super(entity);
       this.requiredProperty = entity.requiredProperty;
-      if (entity.optionalProperty)
-        this.optionalProperty = entity.optionalProperty;
+      this.optionalProperty = entity.optionalProperty;
     }
   }
 

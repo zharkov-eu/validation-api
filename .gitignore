@@ -18,6 +18,7 @@ typings/
 
 # vs
 .vs
+.vscode
 
 # Generated js / js.map
 *.js

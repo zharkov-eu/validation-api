@@ -32,21 +32,31 @@ export function propDecorator(validator: TValidator, groups: string[] = []): Pro
     if (!Reflect.has(target, VALIDATE_KEY))
       Reflect.set(target, VALIDATE_KEY, properties);
 
+    /* Setter function */
+    function setter(newValue: any) {
+      if (!this[ERROR_KEY]) this[ERROR_KEY] = [];
+      if (!this.hasOwnProperty(property.propertyKey)) {
+        Reflect.defineProperty(this, privateKey, { enumerable: false, writable: true });
+        Reflect.defineProperty(this, property.propertyKey, {
+          get: () => this[privateKey],
+          set: setter,
+          enumerable: true,
+        });
+      }
+
+      for (const func of property.groups[this.constructor[GROUP_KEY]] || []) {
+        const err = func(newValue, property.propertyKey);
+        if (err) this[ERROR_KEY].push(err);
+      }
+      this[privateKey] = newValue;
+    }
+
     /* Define getter / setter */
     const privateKey = "_" + property.propertyKey;
-    Reflect.defineProperty(target, privateKey, { enumerable: false, writable: true });
     Reflect.defineProperty(target, property.propertyKey, {
+      set: setter,
       get: function() {
         return this[privateKey];
-      },
-      set: function(newValue: any) {
-        if (!this[ERROR_KEY]) this[ERROR_KEY] = [];
-
-        for (const func of property.groups[this.constructor[GROUP_KEY]] || []) {
-          const err = func(newValue, property.propertyKey);
-          if (err) this[ERROR_KEY].push(err);
-        }
-        this[privateKey] = newValue;
       },
       enumerable: true,
     });
