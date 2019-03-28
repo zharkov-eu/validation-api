@@ -21,6 +21,7 @@ typings/
 
 # vs
 .vs
+.vscode
 
 # TypeScript env
 /nbproject/private/
