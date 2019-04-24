@@ -7,7 +7,7 @@
 
 import { assert } from "chai";
 import { describe, it } from "mocha";
-import { AbstractValidated, IsBoolean, IsMemberOf, IsPositiveNumber, Validate, ValidationError } from "..";
+import { AbstractValidated, IsBoolean, IsMemberOf, IsPhone, IsPositiveNumber, Validate, ValidationError } from "..";
 
 describe("IsBoolean test", () => {
   @Validate()
@@ -48,6 +48,38 @@ describe("Positive number test", () => {
 
   it("Construct object with valid argument is successful", () => {
     assert.doesNotThrow(() => new TestDomain({ positiveNumber: 1 }));
+  });
+});
+
+describe("IsPhone test", () => {
+  @Validate()
+  class TestDomain extends AbstractValidated {
+    @IsPhone()
+    public phone;
+    @IsPhone({ minlen: 11, maxlen: 11 })
+    public phoneFixed;
+
+    constructor(entity: any) {
+      super(entity);
+      this.phone = entity.phone;
+      this.phoneFixed = entity.phoneFixed;
+    }
+  }
+
+  it("Construct object with invalid argument throws error", () => {
+    assert.throws(() => new TestDomain({ phone: "+1291acb" }), ValidationError);
+  });
+
+  it("Construct object with invalid argument throws error", () => {
+    assert.throws(() => new TestDomain({ phoneFixed: "+7921219212" }));
+  });
+
+  it("Construct object with valid argument is successful", () => {
+    assert.doesNotThrow(() => new TestDomain({ phone: "+7921219212" }));
+  });
+
+  it("Construct object with valid argument is successful", () => {
+    assert.doesNotThrow(() => new TestDomain({ phoneFixed: "+79212192121" }));
   });
 });
 
