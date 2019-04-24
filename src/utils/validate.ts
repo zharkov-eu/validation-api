@@ -103,7 +103,8 @@ export function validateEmail(candidate: any): boolean {
  * @returns {boolean}
  */
 export function validatePhone(candidate: any, minlen: number = 10, maxlen: number = 14): boolean {
-  const re: RegExp = new RegExp("^(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){" + minlen + "," + maxlen + "}(\s*)?$");
+  const count = minlen === maxlen ? minlen : minlen + "," + maxlen;
+  const re: RegExp = new RegExp("^(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){" + count + "}(\s*)?$");
   return validateNotEmptyString(candidate) && re.test(candidate);
 }
 
