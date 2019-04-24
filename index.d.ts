@@ -15,6 +15,11 @@ export interface INumberPropDecorationOption extends IPropDecoratorOption {
   max?: number;
 }
 
+export interface IPhonePropDecorationOption extends IPropDecoratorOption {
+  minlen?: number;
+  maxlen?: number;
+}
+
 export interface IMemberOfPropDecorationOption extends IPropDecoratorOption {
   array: any[];
 }
@@ -64,7 +69,7 @@ export declare const IsString: (option?: IPropDecoratorOption) => PropAnnotation
 export declare const NotEmptyString: (option?: IPropDecoratorOption) => PropAnnotation;
 export declare const IsArray: (option?: IPropDecoratorOption) => PropAnnotation;
 export declare const IsEmail: (option?: IPropDecoratorOption) => PropAnnotation;
-export declare const IsPhone: (option?: IPropDecoratorOption) => PropAnnotation;
+export declare const IsPhone: (option?: IPhonePropDecorationOption) => PropAnnotation;
 export declare const IsMemberOf: (option?: IMemberOfPropDecorationOption) => PropAnnotation;
 export declare const Required: (option?: IPropDecoratorOption) => PropAnnotation;
 export declare const Annotate: (validate: (value: any) => boolean, constraint: string) =>

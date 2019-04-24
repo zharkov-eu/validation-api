@@ -5,7 +5,12 @@
 
 "use strict";
 
-import { IMemberOfPropDecorationOption, INumberPropDecorationOption, IPropDecoratorOption } from "../index";
+import {
+  IMemberOfPropDecorationOption,
+  INumberPropDecorationOption,
+  IPhonePropDecorationOption,
+  IPropDecoratorOption
+} from "../index";
 import { propDecorator } from "./utils/decorator";
 import * as validator from "./utils/validate";
 
@@ -163,8 +168,9 @@ export function IsEmail(option: IPropDecoratorOption = defaultOption) {
  * @returns {(target: any, propertyKey: (string | symbol)) => void}
  * @constructor
  */
-export function IsPhone(option: IPropDecoratorOption = defaultOption) {
-  return setterShortcut(validator.validatePhone, Constraint.IsPhone, option);
+export function IsPhone(option: IPhonePropDecorationOption = defaultOption) {
+  const validate = (candidate: any) => validator.validatePhone(candidate, option.minlen, option.maxlen);
+  return setterShortcut(validate, Constraint.IsPhone, option);
 }
 
 /**

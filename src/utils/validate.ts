@@ -98,10 +98,12 @@ export function validateEmail(candidate: any): boolean {
 /**
  * Phone validation (RegExp)
  * @param candidate
+ * @param minlen
+ * @param maxlen
  * @returns {boolean}
  */
-export function validatePhone(candidate: any): boolean {
-  const re: RegExp = /^(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){10,14}(\s*)?$/;
+export function validatePhone(candidate: any, minlen: number = 10, maxlen: number = 14): boolean {
+  const re: RegExp = new RegExp("^(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){" + minlen + "," + maxlen + "}(\s*)?$");
   return validateNotEmptyString(candidate) && re.test(candidate);
 }
 
