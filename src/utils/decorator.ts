@@ -29,8 +29,10 @@ export function propDecorator(validator: TValidator, groups: string[] = []) {
     }
 
     properties.push(property);
-    if (!Reflect.has(target, VALIDATE_KEY))
+    if (!Reflect.has(target, VALIDATE_KEY)) {
+      Reflect.defineProperty(target, VALIDATE_KEY, { enumerable: false, writable: true });
       Reflect.set(target, VALIDATE_KEY, properties);
+    }
 
     /* Define getter / setter */
     const privateKey = "_" + property.propertyKey;
