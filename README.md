@@ -1,36 +1,34 @@
 # validation-api
-TypeScript Validation Api, based on decorators. 
 
+TypeScript Validation Api, based on decorators.
 
 ## Usage
 
 ```typescript
-import {Validate, ValidationError, IsBoolean} from "validation-api";
+import { Validate, ValidationError, IsBoolean } from 'validation-api';
 
 @Validate()
 class TestDomain {
-    @IsBoolean()
-    public booleanValue: boolean;
-    
-    constructor(entity: any) {
-      this.booleanValue = entity.booleanValue;
-    }
+  @IsBoolean()
+  public booleanValue: boolean;
+
+  constructor(entity: any) {
+    this.booleanValue = entity.booleanValue;
+  }
 }
 
 try {
-    const success = new TestDomain({booleanValue: false});
-    const fail = new TestDomain({booleanValue: 1});
+  const success = new TestDomain({ booleanValue: false });
+  const fail = new TestDomain({ booleanValue: 1 });
 } catch (error) {
-    if (error instanceof ValidationError)
-        console.error(JSON.stringify(error));
-    else
-        throw error
+  if (error instanceof ValidationError) console.error(JSON.stringify(error));
+  else throw error;
 }
 ```
 
 ### Property decorator
 
-All decorator methods can take argument relevant to interface IPropDecoratorOption 
+All decorator methods can take argument relevant to interface IPropDecoratorOption
 
 ```typescript
 interface IPropDecoratorOption {
@@ -58,71 +56,87 @@ export interface IMemberOfPropDecorationOption extends IPropDecoratorOption {
 
 ##### Decorators
 
-* Required
-* IsArray
-* IsBoolean
-* IsEmail
-* IsMemberOf
-* IsNumber
-* IsPhone
-* IsPositiveNumber
-* IsPositiveOrZeroNumber
-* IsString
-* NotEmpty
-* NotEmptyString
+- Required
+- IsArray
+- IsBoolean
+- IsEmail
+- IsMemberOf
+- IsNumber
+- IsPhone
+- IsPositiveNumber
+- IsPositiveOrZeroNumber
+- IsString
+- NotEmpty
+- NotEmptyString
 
 ### Abstract class
 
 ### Complex validation
 
 ```typescript
-import {AbstractValidated, Validate, ValidationError, Required, IsBoolean, NotEmpty, IsPositiveNumber, NotEmptyString} from "validation-api";
+import {
+  AbstractValidated,
+  Validate,
+  ValidationError,
+  Required,
+  IsBoolean,
+  NotEmpty,
+  IsPositiveNumber,
+  NotEmptyString,
+} from 'validation-api';
 
 @Validate()
 class Person extends AbstractValidated {
-    @Required()
-    @NotEmptyString({message: "Name is required for person"})
-    public name: string;
+  @Required()
+  @NotEmptyString({ message: 'Name is required for person' })
+  public name: string;
 
-    @IsPositiveNumber({message: "Person age must be a positive number"})
-    public age: number;
+  @IsPositiveNumber({ message: 'Person age must be a positive number' })
+  public age: number;
 
-    @IsBoolean()
-    public ready: boolean;
-    
-    constructor(entity: any) {
-        super(entity);
-        this.name = entity.name;
-        if (entity.age) { this.age = entity.age; } // If because setting to undefined throws a Validation error is not presented
-        if (entity.ready) { this.ready = entity.ready; } // See above
-    }
+  @IsBoolean()
+  public ready: boolean;
+
+  constructor(entity: any) {
+    super(entity);
+    this.name = entity.name;
+    if (entity.age) {
+      this.age = entity.age;
+    } // If because setting to undefined throws a Validation error is not presented
+    if (entity.ready) {
+      this.ready = entity.ready;
+    } // See above
+  }
 }
 
 try {
-    const success = new Person({name: "Ivan", age: 24, ready: true});
-    const fail = new Person({name: "", age: 0, ready: 1});
+  const success = new Person({ name: 'Ivan', age: 24, ready: true });
+  const fail = new Person({ name: '', age: 0, ready: 1 });
 } catch (error) {
-    if (error instanceof ValidationError) {
-        console.error(error.cause)
-    } else {
-        throw error
-    }
+  if (error instanceof ValidationError) {
+    console.error(error.cause);
+  } else {
+    throw error;
+  }
 }
 ```
 
 This example provides output in stderr:
 
 ```javascript
-[ { constraint: 'NotEmptyString',
+[
+  {
+    constraint: 'NotEmptyString',
     message: 'Name is required for person',
     property: 'name',
-    value: '' },
-  { constraint: 'IsPositiveNumber',
+    value: '',
+  },
+  {
+    constraint: 'IsPositiveNumber',
     message: 'Person age must be a positive number',
     property: 'age',
-    value: 0 },
-  { constraint: 'IsBoolean',
-    message: 'ready is not a Boolean',
-    property: 'ready',
-    value: 1 } ]
+    value: 0,
+  },
+  { constraint: 'IsBoolean', message: 'ready is not a Boolean', property: 'ready', value: 1 },
+];
 ```

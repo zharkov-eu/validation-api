@@ -1,28 +1,27 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
 # Dependency directories
 node_modules/
-
-# Typescript v1 declaration files
-typings/
-
-# Optional npm cache directory
-.npm
-
-# Output of 'npm pack'
-*.tgz
 
 # dotenv environment variables file
 .env
 
-# idea
+# IDE
 .idea
-
-# vs
-.vs
 .vscode
+.vs
 
-# Generated js / js.map
-*.js
-*.js.map
+.DS_Store
+.eslintcache
 
-# Index.js
-!index.js
+# Dist
+dist

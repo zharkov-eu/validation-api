@@ -1,25 +1,26 @@
-/*
- * Licensed under the MIT License. See License.txt in the project root for license information.
- * @author Evgeni Zharkov <zharkov.ev.u@yandex.ru>
- */
+import { IValidationErrorCause, ValidationError } from './error';
 
-import { IValidateOption, IValidationErrorCause, PropAnnotation } from "../../index";
-import { ValidationError } from "../error";
+const DEFAULT_GROUP = '__DEFAULT';
+const VALIDATE_KEY = '__VALIDATE';
+const GROUP_KEY = '__GROUP';
+const ERROR_KEY = '__ERROR';
 
-const DEFAULT_GROUP = "__DEFAULT";
-const VALIDATE_KEY = "__VALIDATE";
-const GROUP_KEY = "__GROUP";
-const ERROR_KEY = "__ERROR";
+export interface IValidateOption {
+  group?: string;
+}
 
-type TValidator = (value: any, propertyKey: string) => IValidationErrorCause | undefined;
-type TValidateProperty = { propertyKey: string, groups: { [group: string]: TValidator[] } };
+export type PropAnnotation = (target: object, propertyKey: string) => void;
+
+type TValidator = (value: unknown, propertyKey: string) => IValidationErrorCause | undefined;
+type TValidateProperty = { propertyKey: string; groups: { [group: string]: TValidator[] } };
 
 export function propDecorator(validator: TValidator, groups: string[] = []): PropAnnotation {
   return (target: object, propertyKey: string) => {
     const properties: TValidateProperty[] = Reflect.get(target, VALIDATE_KEY) || [];
-    const property: TValidateProperty =
-      properties.filter(it => it.propertyKey === propertyKey)[0] || { propertyKey, groups: {} };
-    const validate = (value) => validator(value, propertyKey);
+    const property: TValidateProperty = properties.filter(
+      it => it.propertyKey === propertyKey,
+    )[0] || { propertyKey, groups: {} };
+    const validate = value => validator(value, propertyKey);
 
     if (groups.length === 0) groups = [DEFAULT_GROUP];
     for (const groupName of groups) {
@@ -29,8 +30,7 @@ export function propDecorator(validator: TValidator, groups: string[] = []): Pro
     }
 
     properties.push(property);
-    if (!Reflect.has(target, VALIDATE_KEY))
-      Reflect.set(target, VALIDATE_KEY, properties);
+    if (!Reflect.has(target, VALIDATE_KEY)) Reflect.set(target, VALIDATE_KEY, properties);
 
     /* Setter function */
     function setter(newValue: any) {
@@ -52,10 +52,10 @@ export function propDecorator(validator: TValidator, groups: string[] = []): Pro
     }
 
     /* Define getter / setter */
-    const privateKey = "_" + property.propertyKey;
+    const privateKey = '_' + property.propertyKey;
     Reflect.defineProperty(target, property.propertyKey, {
       set: setter,
-      get: function() {
+      get: function () {
         return this[privateKey];
       },
       enumerable: true,
@@ -66,7 +66,7 @@ export function propDecorator(validator: TValidator, groups: string[] = []): Pro
 const defaultOption: IValidateOption = { group: DEFAULT_GROUP };
 
 export function Validate(option: IValidateOption = defaultOption) {
-  return <T extends new(...args: any[]) => {}>(target: T) => {
+  return <T extends new (...args: any[]) => {}>(target: T) => {
     Reflect.defineProperty(target, GROUP_KEY, { enumerable: false, value: option.group });
 
     return class V extends target {
@@ -75,10 +75,13 @@ export function Validate(option: IValidateOption = defaultOption) {
         Reflect.defineProperty(this, ERROR_KEY, { enumerable: false, writable: false });
 
         if (this[ERROR_KEY].length) {
-          const messages = V["messages"] || {};
-          for (const error of this[ERROR_KEY])
-            if (error.message.startsWith("{") && error.message.endsWith("}"))
-              error.message = messages[error.message.slice(1, error.message.length - 1)] || error.message;
+          const messages = args[1] || V['messages'] || {};
+          for (const error of this[ERROR_KEY]) {
+            if (error.message.startsWith('{') && error.message.endsWith('}')) {
+              const key = error.message.slice(1, error.message.length - 1);
+              error.message = messages[key] || error.message;
+            }
+          }
 
           throw new ValidationError(this[ERROR_KEY]);
         }
