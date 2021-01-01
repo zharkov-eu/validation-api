@@ -1,5 +1,3 @@
-'use strict';
-
 export interface IValidationErrorCause {
   constraint: string;
   message: string;

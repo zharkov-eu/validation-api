@@ -1,15 +1,13 @@
-'use strict';
-
 import { assert } from 'chai';
 import { describe, it } from 'mocha';
 import {
   AbstractValidated,
   NotEmptyString,
   Required,
-  ValidationError,
-  Validate,
   TMessages,
-} from '../dist';
+  Validate,
+  ValidationError,
+} from '.';
 
 @Validate()
 class TestClass extends AbstractValidated {

@@ -1,5 +1,3 @@
-'use strict';
-
 import { Constraint } from './api';
 import { ValidationError } from './error';
 

@@ -1,8 +1,6 @@
-'use strict';
-
 import { assert } from 'chai';
 import { describe, it } from 'mocha';
-import { AbstractValidated, NotEmptyString, Validate } from '../dist';
+import { AbstractValidated, NotEmptyString, Validate } from '.';
 
 describe('AbstractValidated test', () => {
   @Validate()

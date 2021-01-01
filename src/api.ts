@@ -1,5 +1,3 @@
-'use strict';
-
 import { propDecorator } from './decorator';
 import * as validator from './utils/validate';
 

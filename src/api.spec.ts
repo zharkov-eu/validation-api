@@ -1,5 +1,3 @@
-'use strict';
-
 import { assert } from 'chai';
 import { describe, it } from 'mocha';
 import {
@@ -10,7 +8,7 @@ import {
   IsPositiveNumber,
   Validate,
   ValidationError,
-} from '../dist';
+} from '.';
 
 describe('IsBoolean test', () => {
   @Validate()

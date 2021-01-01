@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * Validate boolean value (typeof)
  */
