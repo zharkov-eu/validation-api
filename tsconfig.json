@@ -1,16 +1,10 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "lib": [
-      "es2015",
-      "es2015.reflect"
-    ],
-    "sourceMap": true,
+    "target": "es2015",
     "module": "commonjs",
+    "sourceMap": false,
     "esModuleInterop": true,
     "experimentalDecorators": true
   },
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules", "**/*.spec.ts"]
 }

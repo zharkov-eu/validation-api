@@ -1,45 +1,32 @@
-/*
- * Licensed under the MIT License. See License.txt in the project root for license information.
- * @author Evgeni Zharkov <zharkov.ev.u@yandex.ru>
- */
-
-"use strict";
+'use strict';
 
 /**
  * Validate boolean value (typeof)
- * @param candidate
- * @returns {boolean}
  */
-export function validateBoolean(candidate: any): boolean {
-  return typeof candidate === "boolean";
+export function validateBoolean(candidate: unknown): candidate is boolean {
+  return typeof candidate === 'boolean';
 }
 
 /**
  * Validate number value (typeof)
- * @param candidate
- * @returns {boolean}
  */
-export function validateNumber(candidate: any): boolean {
-  return typeof candidate === "number";
+export function validateNumber(candidate: unknown): candidate is number {
+  return typeof candidate === 'number';
 }
 
 /**
  * Validate positive number value (typeof)
  * Zero argument returns false
- * @param candidate
- * @returns {boolean}
  */
-export function validatePositiveNumber(candidate: any): boolean {
+export function validatePositiveNumber(candidate: unknown): candidate is number {
   return validateNumber(candidate) && candidate > 0;
 }
 
 /**
  * Validate positive or zero number value (typeof)
  * Zero argument return true
- * @param candidate
- * @returns {boolean}
  */
-export function validatePositiveOrZeroNumber(candidate: any): boolean {
+export function validatePositiveOrZeroNumber(candidate: unknown): candidate is number {
   return validateNumber(candidate) && candidate >= 0;
 }
 
@@ -48,70 +35,58 @@ export function validatePositiveOrZeroNumber(candidate: any): boolean {
  * Return false if candidate is undefined, null or
  * Not NaN if Number
  * Not empty array if Array
- * @param candidate
- * @returns {boolean}
  */
-export function validateNotEmpty(candidate: any): boolean {
-  return candidate !== undefined && candidate !== null
-    && (typeof candidate === "number" ? !isNaN(candidate) : true)
-    && (Array.isArray(candidate) ? candidate.length > 0 : true);
+export function validateNotEmpty(candidate: unknown): boolean {
+  return (
+    candidate !== undefined &&
+    candidate !== null &&
+    (typeof candidate === 'number' ? !isNaN(candidate) : true) &&
+    (Array.isArray(candidate) ? candidate.length > 0 : true)
+  );
 }
 
 /**
  * Validate string (typeof)
- * @param candidate
- * @returns {boolean}
  */
-export function validateString(candidate: any): boolean {
-  return typeof candidate === "string";
+export function validateString(candidate: unknown): candidate is string {
+  return typeof candidate === 'string';
 }
 
 /**
  * Validation of not empty string (typeof)
- * @param candidate
- * @returns {boolean}
  */
-export function validateNotEmptyString(candidate: any): boolean {
+export function validateNotEmptyString(candidate: unknown): candidate is string {
   return validateString(candidate) && candidate.trim().length > 0;
 }
 
 /**
  * Validate array value (Array.isArray())
- * @param candidate
- * @returns {boolean}
  */
-export function validateArray(candidate: any): boolean {
+export function validateArray(candidate: unknown): candidate is unknown[] {
   return Array.isArray(candidate);
 }
 
 /**
  * Email validation (RegExp)
- * @param candidate
- * @returns {boolean}
  */
-export function validateEmail(candidate: any): boolean {
-  // tslint:disable-next-line:max-line-length
+export function validateEmail(candidate: unknown): candidate is string {
   const re: RegExp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return validateNotEmptyString(candidate) && re.test(candidate);
 }
 
 /**
  * Phone validation (RegExp)
- * @param candidate
- * @returns {boolean}
  */
-export function validatePhone(candidate: any): boolean {
-  const re: RegExp = /^(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){10,14}(\s*)?$/;
+export function validatePhone(candidate: unknown, minlen = 10, maxlen = 14): candidate is string {
+  const count = minlen === maxlen ? minlen : minlen + ',' + maxlen;
+  const re: RegExp = new RegExp('^(\\s*)?(\\+)?([- _():=+]?\\d[- _():=+]?){' + count + '}(\\s*)?$');
   return validateNotEmptyString(candidate) && re.test(candidate);
 }
 
 /**
  * Inclusive relation validation (indexOf)
- * Return true if candidate
- * @param candidate
- * @param {Array} inclusive
- * @returns {boolean}
+ * Return true if candidate exists in inclusive array
  */
-export function validateInclusive(candidate: any, inclusive: any[]) {
+export function validateInclusive(candidate: unknown, inclusive: unknown[]) {
   return inclusive.indexOf(candidate) !== -1;
 }
